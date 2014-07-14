@@ -1,0 +1,103 @@
+<div class="row">
+  <div class="col-md-6 col-md-offset-3 col-xs-12">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        Create your personal account
+      </div>
+      <div class="panel-body">
+        <form accept-charset="UTF-8" autocomplete="off" class="" id="signup-form" name="signupForm"
+        novalidate ng-submit="submitSignupForm(signup)">
+          <div class="">
+            <div class="">
+              <div class="inputBlock">
+                <label name="signupUser">Username</label>
+                <input type="text" name="username" ng-model="signup.username"
+                placeholder="Pick a username" my-ensure-unique="username"
+                required ng-maxlength=25 ng-pattern="/^[A-Za-z0-9][A-Za-z0-9]*(?:-[A-Za-z0-9]+)*$/"
+                class="form-control" ng-class="{inputIsValid: signupForm.username.$valid && !busyCheckingusername,
+                  inputIsInvalid: signupForm.username.$invalid && (signupForm.username.$dirty || signupSubmitted) && !busyCheckingusername,
+                  checkingInputValidity: busyCheckingusername}">
+                <div ng-show="signupForm.username.$invalid">
+                  <div class="problemMessage" ng-show="signupForm.username.$error.required && signupSubmitted">
+                    <small>A username is required</small>
+                  </div>
+                  <div class="problemMessage" ng-show="signupForm.username.$error.uniqueusername && !busyCheckingusername">
+                    <small>That username is taken</small>
+                  </div>
+                  <div class="problemMessage" ng-show="signupForm.username.$error.maxlength">
+                    <small>Username must be 25 characters or fewer</small>
+                  </div>
+                  <div class="problemMessage" ng-show="signupForm.username.$error.pattern">
+                    <small>Username must contain only alphanumeric characters or dashes and not begin with a dash</small>
+                  </div>
+                </div>
+              </div>
+              <div class="inputBlock">
+                <label name="signupEmail">Email address</label>
+                <input type="email" name="email" ng-model="signup.email"
+                placeholder="Your email" required my-ensure-unique="email"
+                class="form-control" ng-class="{inputIsValid: signupForm.email.$valid && !busyCheckingemail,
+                  inputIsInvalid: signupForm.email.$invalid && (signupForm.email.$dirty || signupSubmitted) && !busyCheckingemail,
+                  checkingInputValidity: busyCheckingemail}">
+                <div ng-show="signupForm.email.$invalid">
+                  <div class="problemMessage" ng-show="signupForm.email.$error.required && signupSubmitted">
+                    <small>An email address is required</small>
+                  </div>
+                  <div class="problemMessage" ng-show="(signupForm.email.$error.email || signupForm.email.$error.uniqueemail) && !busyCheckingemail">
+                    <small>Email address is invalid or already in use</small>
+                  </div>
+                </div>
+                <p class="captionText">
+                  <small>You will occasionally receive emails related to your account. We promise not to share your email with anyone.</small>
+                </p>
+              </div>
+              <div class="inputBlock">
+                <label name="password">Password</label>
+                <input type="password" name="password1" ng-model="signup.password1"
+                placeholder="Create a password" required ng-minlength=8 ng-pattern="/(?=.*\d)(?=.*[A-Z])/"
+                class="form-control" ng-class="{inputIsValid: signupForm.password1.$valid,
+                  inputIsInvalid: signupForm.password1.$invalid && (signupForm.password1.$dirty || signupSubmitted)}">
+                <div ng-show="signupForm.password1.$invalid">
+                  <div class="problemMessage" ng-show="signupForm.password1.$error.required && signupSubmitted">
+                    <small>A password is required</small>
+                  </div>
+                  <div class="problemMessage" ng-show="signupForm.password1.$error.minlength">
+                    <small>Password must be at least 8 characters</small>
+                  </div>
+                  <div class="problemMessage" ng-show="signupForm.password1.$error.pattern">
+                    <small>Password must contain at least one numeral and one uppercase letter</small>
+                  </div>
+                </div>
+                <p class="captionText">
+                  <small>Use at least one numeral, one uppercase letter, and 8 characters.</small>
+                </p>
+              </div>
+              <div class="inputBlock">
+                <label name="password2">Confirm your password</label>
+                <input type="password" name="password2" ng-model="signup.password2"
+                placeholder="Enter your password again" my-password-match="signup.password1" required
+                class="form-control" ng-class="{inputIsValid: signupForm.password1.$valid && signupForm.password2.$valid,
+                  inputIsInvalid: signupForm.password1.$valid && signupForm.password2.$invalid && (signupForm.password2.$dirty || signupSubmitted)}">
+                <div ng-show="signupForm.password2.$invalid">
+                  <div class="problemMessage" ng-show="signupForm.password2.$error.required && signupSubmitted">
+                    <small>Please repeat your password</small>
+                  </div>
+                  <div class="problemMessage" ng-show="signupForm.password1.$valid && signupForm.password2.$error.match && signupForm.password2.$dirty">
+                    <small>Passwords don't match</small>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <p class="tos-info">By clicking on "Create an account" below, you are agreeing to the
+            <a href="#/terms" target="_blank">Terms of Service</a> and the
+            <a href="#/privacy" target="_blank">Privacy Policy</a>.
+          </p>
+          <div class="">
+            <button type="submit" class="btn btn-default" id="signup_button">Create an account</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

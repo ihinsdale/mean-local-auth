@@ -1,0 +1,111 @@
+$icon-font-path: "/styles/fonts/";
+
+@import '../bower_components/bootstrap-sass-official/assets/stylesheets/bootstrap';
+
+// bower:scss
+@import "../bower_components/bootstrap-sass-official/assets/stylesheets/bootstrap.scss";
+// endbower
+
+body {
+    padding-top: 70px;
+}
+
+// #/signup
+
+.tos-info {
+  padding-top: 15px;
+  padding-bottom: 15px;
+  border-top: 1px solid #eee;
+  border-bottom: 1px solid #eee;
+}
+
+.inputBlock {
+  margin-bottom: 10px;
+}
+
+.captionText {
+  margin-top: 4px;
+  color: #777;
+  line-height: 1;
+}
+
+.inputIsValid {
+  background-image: url('/images/success-check.png');
+}
+
+.inputIsInvalid {
+  background-image: url('/images/fail-x.png');
+}
+
+.checkingInputValidity {
+  background-image: url('/images/checking-spinner.gif');
+}
+
+.inputIsValid, .inputIsInvalid, .checkingInputValidity {
+  background-repeat: no-repeat;
+  background-position-x: 98%;
+  background-position-y: 50%;
+}
+
+.problemMessage {
+  margin-left: 3px;
+  margin-right: 3px;
+  color: #494620;
+  background: #f7ea57;
+  border: 1px solid #c0b536;
+  border-top: none;
+  display: inline-block;
+  font-weight: bold;
+  padding: 2px 5px;
+  border-bottom-right-radius: 2px;
+  border-bottom-left-radius: 2px;
+}
+
+// loading 'spinner'
+// Cf. http://codepen.io/hugo/pen/lIhHj
+
+.loaderHeading {
+  text-align: center;
+}
+
+.loaderBallsContainer {
+  text-align: center;
+}
+
+.loaderBalls {
+  display: inline-block;
+}
+
+.loaderBall {
+  animation: 3s fade infinite ease-in-out;
+  animation-fill-mode: backwards;
+  border-radius: 50%;
+  height: 3em;
+  float: left;
+  margin: 1em;
+  opacity: 1;
+  width: 3em;
+}
+
+.loaderBall#ball1 {
+  animation-delay: 0.5s;
+  background: #555;
+}
+.loaderBall#ball2 {
+  animation-delay: 1s;
+  background: #555;
+}
+.loaderBall#ball3 {
+  animation-delay: 1.5s;
+  background: #555;
+}
+
+@keyframes fade {
+  0%, 100% {
+    opacity: 0;
+  }
+
+  50% {
+    opacity: 1
+  }
+}
