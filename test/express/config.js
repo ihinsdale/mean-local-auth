@@ -6,12 +6,9 @@ var expect = require('expect.js');
 var _ = require('underscore');
 var async = require('async');
 
-var env = process.env.NODE_ENV;
-exports.env = env;
-
 exports.dbClient = require('../../dist/lib/controllers/dbRW.js');
 
-var config = require('../../dist/lib/config/keys/' + env + '/config.json');
+var config = require('../../dist/lib/config/config.json');
 exports.config = config;
 
 exports.mean-local-authUrlInsecure = 'http://' + config.publicDNS;

@@ -9,7 +9,6 @@ var mongoose = require('mongoose');
 
 var dbClient = require('./config.js').dbClient;
 var config = require('./config.js').config;
-var env = require('./config.js').env;
 var mean-local-authUrlInsecure = require('./config.js').mean-local-authUrlInsecure;
 var mean-local-authUrl = require('./config.js').mean-local-authUrl;
 var dbConnUrl = require('./config.js').dbConnUrl;
