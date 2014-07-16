@@ -1,0 +1,31 @@
+{
+  "db": {
+    "host": "127.0.0.1",
+    "port": 27017,
+    "username": "app_db_user",
+    "password": "ENTER_A_PASSWORD_HERE"
+  },
+  "redis": {
+    "host": "127.0.0.1",
+    "port": 6379,
+    "dbs": {
+      "session": 0,
+    },
+    "pass": ""
+  },
+  "secrets": {
+    "cookieParser": "CHOOSE_A_SECRET",
+    "session": "CHOOSE_ANOTHER_SECRET"
+  },
+  "publicDNS": "ENTER_YOUR_DNS_NAME_HERE",
+  "port": 3000,
+  "passResetEmailHandle": "noreply",
+  "testing": {
+    "email": "ENTER_AN_EMAIL_ADDRESS",
+    "email2": "ENTER_A_DIFFERENT_EMAIL_ADDRESS"
+  },
+  "AWSSES": {
+    "accessKeyId": "ENTER_YOUR_OWN",
+    "secretAccessKey": "ENTER_YOUR_OWN"
+  }
+}
