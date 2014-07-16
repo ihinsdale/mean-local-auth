@@ -13,9 +13,13 @@ Explain use of maintenance.html
 
 How to configure:
 
+Instructions:
 On your local dev machine:
 
 fill out config.json
 also complete all and mongoservers files in /group_vars
 
 run ansible playbook
+
+Other comments:
+Note if you wish to keep group_vars files in version control but their contents private, you can use ansible-vault to encrypt them
