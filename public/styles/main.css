@@ -1,16 +1,8 @@
-$icon-font-path: "/styles/fonts/";
-
-@import '../bower_components/bootstrap-sass-official/assets/stylesheets/bootstrap';
-
-// bower:scss
-@import "../bower_components/bootstrap-sass-official/assets/stylesheets/bootstrap.scss";
-// endbower
-
 body {
     padding-top: 70px;
 }
 
-// #/signup
+/* #/signup */
 
 .tos-info {
   padding-top: 15px;
@@ -61,8 +53,10 @@ body {
   border-bottom-left-radius: 2px;
 }
 
-// loading 'spinner'
-// Cf. http://codepen.io/hugo/pen/lIhHj
+/*
+loading 'spinner'
+Cf. http://codepen.io/hugo/pen/lIhHj
+*/
 
 .loaderHeading {
   text-align: center;

@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "dependencies": {
     "angular": "~1.2.16",
-    "json3": "~3.3.0",
+    "json3": "3.3.0",
     "jquery": "~2.1.0",
     "es5-shim": "~2.3.0",
     "angular-resource": "~1.2.16",
@@ -11,7 +11,7 @@
     "angular-sanitize": "~1.2.16",
     "angular-bootstrap": "~0.11.0",
     "angular-route": "~1.2.16",
-    "bootstrap-sass-official": "~3.2.0"
+    "bootstrap": "~3.2.0"
   },
   "devDependencies": {
     "angular-mocks": "~1.2.16",

@@ -9,9 +9,10 @@
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width">
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
-    <!-- build:css({.tmp,public}) styles/main.css -->
+
+    <link rel="stylesheet" href="../bower_components/bootstrap/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="styles/main.css">
-    <!-- endbuild -->
+
 
     <!-- Google Analytics: change UA-XXXXX-X to be your site's ID -->
      <script>
@@ -29,7 +30,6 @@
     <script src="bower_components/json3/lib/json3.min.js"></script>
     <![endif]-->
 
-    <!-- build:js scripts/vendor.js -->
     <script src="../bower_components/es5-shim/es5-shim.min.js"></script>
     <script src="../bower_components/jquery/dist/jquery.min.js"></script>
     <script src="../bower_components/angular/angular.js"></script>
@@ -40,9 +40,7 @@
     <script src="../bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
     <script src="../bower_components/angular-bootstrap/ui-bootstrap.min.js"></script>
     <script src="../bower_components/angular-route/angular-route.min.js"></script>
-    <!-- endbuild -->
 
-    <!-- build:js({.tmp,public}) scripts/scripts.js -->
     <script src="scripts/app.js"></script>
     <script src="scripts/controllers/init.js"></script>
     <script src="scripts/controllers/main.js"></script>
@@ -60,7 +58,6 @@
     <script src="scripts/directives/init.js"></script>
     <script src="scripts/directives/myEnsureUnique.js"></script>
     <script src="scripts/directives/myPasswordMatch.js"></script>
-    <!-- endbuild -->
   </head>
   <body ng-app="mean-local-authApp" ng-controller="NavCtrl">
     <div class="" ng-show="initialLoadUp" ng-include="'views/loading.html'">
