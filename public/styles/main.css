@@ -17,6 +17,10 @@ body {
   color: #555;
 }
 
+#headline, #subHeadline, #subsubHeadline {
+  margin-bottom: 30px;
+}
+
 .landingBtn {
   margin-bottom: 20px;
 }
