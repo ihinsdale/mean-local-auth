@@ -2,6 +2,11 @@ body {
     padding-top: 70px;
 }
 
+/* navbar */
+#signout:hover {
+  cursor: pointer;
+}
+
 /* #/signup */
 
 .tos-info {
