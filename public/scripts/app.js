@@ -41,6 +41,14 @@ angular
         templateUrl: 'views/change-forgotten-password.html',
         controller: 'ChangeForgottenPasswordCtrl'
       })
+      .when('/terms', {
+        templateUrl: 'views/terms-of-service.html',
+        controller: 'StaticCtrl'
+      })
+      .when('/privacy', {
+        templateUrl: 'views/privacy-policy.html',
+        controller: 'StaticCtrl'
+      })
       .otherwise({
         redirectTo: '/'
       });

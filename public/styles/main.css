@@ -9,6 +9,14 @@ body {
 
 /* landing */
 
+#headline {
+  color: #00a480;
+}
+
+#subHeadline {
+  color: #555;
+}
+
 .landingBtn {
   margin-bottom: 20px;
 }
