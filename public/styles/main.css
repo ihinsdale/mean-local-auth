@@ -7,6 +7,12 @@ body {
   cursor: pointer;
 }
 
+/* landing */
+
+.landingBtn {
+  margin-bottom: 20px;
+}
+
 /* #/signup */
 
 .tos-info {
