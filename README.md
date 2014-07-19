@@ -67,6 +67,16 @@ These Ansible playbooks are written to deploy the app to one server, but they ca
 
 1. Create a server with your favored cloud provider (e.g. DigitalOcean, AWS). It should run Ubuntu 14.04 x64. When creating your server, specify `mean-local-auth.pub` for use with SSH.
 
+1. If you already have an SSL certificate and private key for your server, place them in `/sysadmin/dev/roles/nginx/files`. Update lines 55 and 56 of `/sysadmin/dev/roles/nginx/templates/nginx.conf.j2` with the filenames of your certificate and key. If you need to generate your own certificate and key, you may use:
+        cd sysadmin/dev/roles/nginx/files
+        sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout server.key -out server.crt
+
+    Update lines 55 and 56 with server.crt and server.key respectively.
+
+    Note that if you use a self-signed SSL certificate, for the tests in ``/test/express/auth.js` to work you will need to ensure you have set
+        process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
+    at the beginning of `/test/express/auth.js`.
+
 1. From within `/sysadmin/dev`, configure `/groups_vars/all` for your situation:
 
     * For `forked_repo_url`, specify the URL of your fork (created in step 1) of the mean-local-auth repo.
@@ -82,15 +92,8 @@ These Ansible playbooks are written to deploy the app to one server, but they ca
     * Choose a password for the master user of your Mongo database.
     * Choose a password for app_db_user (the user which the app will connect to the database as).
 
-1. If you already have an SSL certificate and private key for your server, place them in `/sysadmin/dev/roles/nginx/files`. Update lines 55 and 56 of `/sysadmin/dev/roles/nginx/templates/nginx.conf.j2` with the filenames of your certificate and key. If you need to generate your own certificate and key, you may use:
-        cd sysadmin/dev/roles/nginx/files
-        sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout server.key -out server.crt
-
-    Update lines 55 and 56 with server.crt and server.key respectively.
-
-    Note that if you use a self-signed SSL certificate, for the tests in ``/test/express/auth.js` to work you will need to ensure you have set
-        process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
-    at the beginning of `/test/express/auth.js`.
+1. If you wish to keep the contents of the `/group_vars` files private, but still tracked in version control, you can use [ansible-vault](http://docs.ansible.com/playbooks_vault.html) to encrypt them. From within `/group_vars`, you can use the command:
+        ansible-vault encrypt all mongoservers nginxservers redisservers
 
 1. Configure `/lib/config/config.json`:
     * For `db.password`, enter the `app_db_user_password` you specified in `/sysadmin/dev/group_vars/mongoservers`.
@@ -99,9 +102,17 @@ These Ansible playbooks are written to deploy the app to one server, but they ca
     * In `testing.email` and `testing.email2`, enter different email address that can be used by the tests in `/test/express/auth.js` to test the creation of user accounts.
     * In `AWSSES`, enter the access key id and secret access key associated with your AWS account. These credentials are used to send password reset emails via AWS's Simple Email Service. If you prefer to use a different provider for sending password reset emails, you would customize `forgot` within `/lib/routes/passwordReset.js`.
 
-5. From within `/sysadmin/dev`, run:
+1. If you don't want your configuration information/credentials to be stored in version control, add a line for config.json to your .gitignore file, then type:
+    git rm --cached lib/config/config.json
+to untrack the file from your repo. Then commit and push to origin.
+
+1. In the `/sysadmin/dev/development` inventory file, replace all four instances of `ansible_ssh_host=` with the IP address of your server. This will be the same IP you used to define `meanlocalauth_ip` in `/group_vars/all`.
+
+1. You are now ready to deploy. From within `/sysadmin/dev`, run:
         ansible-playbook -i development site.yml -vvvv
-    That's it! If the playbook finished without error, as it should have, your own version of mean-local-auth will be up and running!
+    If you used ansible-vault to encrypt your `/group_vars` files, you will need to add the `--ask-vault-pass` flag to this command.
+
+That's it! If the playbook finished without error, as it should have, your own version of mean-local-auth will be up and running!
 
 
 #### Upgrading your app code
@@ -110,35 +121,11 @@ As you modify mean-local-auth, you'll want to update the code on your server. To
 
     ansible-playbook -i development upgrade_app_code.yml -vvvv -e ansible_ssh_port=22
 
-`ansible_ssh_port` should be set to whatever you specified for `new_ssh_port` in `/sysadmin/dev/group_vars/all`.
+Two things to note about this command:
+* If you used ansible-vault to encrypt your `/group_vars` files, you will need to add the `--ask-vault-pass` flag to this command.
+
+* `ansible_ssh_port` should be set to whatever you specified for `new_ssh_port` in `/sysadmin/dev/group_vars/all`.
 
 ##<a name="license"></a>License
 
 See LICENSE
-
-Seed app supporting local authentication, using MongoDB, Express4, and AngularJS
-
-In your own project, you'll want to add config.json to your .gitignore file.
-
-Sysadmin:
-
-Assumes user uses some VPN or at least has static IP, from which to SSH into app servers and control them
-
-Explain use of maintenance.html
-
-How to configure:
-
-Instructions:
-On your local dev machine:
-
-fill out config.json
-also complete all and mongoservers files in /group_vars
-
-run ansible playbook
-
-Other comments:
-Note if you wish to keep group_vars files in version control but their contents private, you can use ansible-vault to encrypt them
-
-
-Some features of the app:
-- has a loading page that displays until the angular app is loaded
