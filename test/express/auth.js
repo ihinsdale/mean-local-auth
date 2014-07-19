@@ -1,6 +1,7 @@
 'use strict';
 
-require('./config.js').init();
+// If you are using a self-signed SSL certificate, uncomment this line:
+// require('./config.js').init();
 
 var request = require('supertest');
 var superagent = require('superagent');

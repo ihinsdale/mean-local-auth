@@ -45,26 +45,72 @@ Core architecture:
 
 mean-local-auth doesn't use a build tool like Grunt or Gulp. Hence there is no minification, CSS preprocessing, etc. Better to leave those choices up to the developer.
 
+mean-local-auth also doesn't distinguish between development/staging/production environments; that is again left to the developer.
+
 ##<a name="how-to-use"></a>How to use mean-local-auth to kickstart your project
 
-mean-local-auth uses Ansible to handle server configuration and deployment of code.
+Of course, you can always extract any parts of the code that are useful to you. But mean-local-auth comes with Ansible playbooks which can deploy your very own version of the app, with just a little configuration. For very little work, you'll have:
+* an Angular app supporting local authentication,
+* backed by an Express 4 server
+* and a Mongo database,
+* using Redis for session support
+* and Nginx as a reverse-proxy serving static files and redirecting all connections over HTTPS.
 
-To deploy mean-local-auth on a fresh server, follow this procedure:
+These Ansible playbooks are written to deploy the app to one server, but they can easily be adapted to create a scalable multi-tiered architecture.
+
+#### Deploying mean-local-auth for the first time:
+
+1. Fork the mean-local-auth repo so that you have your own copy.
 
 1. On your local development machine, create an RSA keypair for SSHing into the server where you'll deploy mean-local-auth. mean-local-auth assumes this keypair will be called `mean-local-auth` and will be located in `~/.ssh`. You can use the following command:
-
         ssh-keygen -t rsa -f ~/.ssh/mean-local-auth -N ''
 
-2. Create your server running Ubuntu 14.04 x64 (e.g. using DigitalOcean or AWS EC2), specifying `mean-local-auth.pub` for use with SSH.
+1. Create a server with your favored cloud provider (e.g. DigitalOcean, AWS). It should run Ubuntu 14.04 x64. When creating your server, specify `mean-local-auth.pub` for use with SSH.
 
-3. If you already have an SSL certificate and private key for your server, place them in `/sysadmin/dev/roles/nginx/files`. Update lines 55 and 56 of `/sysadmin/dev/roles/nginx/templates/nginx.conf.j2` with the filenames of your certificate and key. If you need to generate your own certificate and key, you may use:
+1. From within `/sysadmin/dev`, configure `/groups_vars/all` for your situation:
 
+    * For `forked_repo_url`, specify the URL of your fork (created in step 1) of the mean-local-auth repo.
+
+    Note that if your fork is private, you will need to customize the `Clone your fork of the mean-local-auth repo` task in `/sysadmin/dev/roles/node/tasks/main.yml` with the authentication credentials necessary to clone your repo.
+    * Specify the IP of the server where the app will be deployed, in the `meanlocalauth_ip` variable.
+    * mean-local-auth assumes you'll be SSHing into your server from a VPN or at least a static IP. Specify the IP you'll be connecting to your server from, in the `vpn_ip` variable. This is the only IP address which will have SSH access to your server.
+    * In `new_ssh_port`, you can specify an alternate port to connect via SSH, if you don't like 22. If you do choose an alternate, make sure it's less than 1024.
+    * Provide an email address in `logwatch_email` and `fail2ban_email` where you'll receive monitoring emails from these services.
+    * Provide crypted passwords for the root and deploy users. In case you don't know how to hash a password, the comment above `root_password` and `deploy_password` contains instructions.
+
+1. Configure `/group_vars/mongoservers` for your situation:
+    * Choose a password for the master user of your Mongo database.
+    * Choose a password for app_db_user (the user which the app will connect to the database as).
+
+1. If you already have an SSL certificate and private key for your server, place them in `/sysadmin/dev/roles/nginx/files`. Update lines 55 and 56 of `/sysadmin/dev/roles/nginx/templates/nginx.conf.j2` with the filenames of your certificate and key. If you need to generate your own certificate and key, you may use:
         cd sysadmin/dev/roles/nginx/files
         sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout server.key -out server.crt
 
     Update lines 55 and 56 with server.crt and server.key respectively.
 
-    Note that if you use a self-signed SSL certificate, you will need to ensure that you use 
+    Note that if you use a self-signed SSL certificate, for the tests in ``/test/express/auth.js` to work you will need to ensure you have set
+        process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
+    at the beginning of `/test/express/auth.js`.
+
+1. Configure `/lib/config/config.json`:
+    * For `db.password`, enter the `app_db_user_password` you specified in `/sysadmin/dev/group_vars/mongoservers`.
+    * Choose secrets for `secrets.cookieParser` and `secrets.session`.
+    * For `publicDNS`, enter the domain name (e.g. example.com) or IP address of your server.
+    * In `testing.email` and `testing.email2`, enter different email address that can be used by the tests in `/test/express/auth.js` to test the creation of user accounts.
+    * In `AWSSES`, enter the access key id and secret access key associated with your AWS account. These credentials are used to send password reset emails via AWS's Simple Email Service. If you prefer to use a different provider for sending password reset emails, you would customize `forgot` within `/lib/routes/passwordReset.js`.
+
+5. From within `/sysadmin/dev`, run:
+        ansible-playbook -i development site.yml -vvvv
+    That's it! If the playbook finished without error, as it should have, your own version of mean-local-auth will be up and running!
+
+
+#### Upgrading your app code
+
+As you modify mean-local-auth, you'll want to update the code on your server. To do that, from within `/sysadmin/dev`, just run:
+
+    ansible-playbook -i development upgrade_app_code.yml -vvvv -e ansible_ssh_port=22
+
+`ansible_ssh_port` should be set to whatever you specified for `new_ssh_port` in `/sysadmin/dev/group_vars/all`.
 
 ##<a name="license"></a>License
 

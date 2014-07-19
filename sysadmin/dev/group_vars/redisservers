@@ -1,0 +1,4 @@
+---
+
+redis_port: 6379
+data_dir: /var/redis/mean-local-auth

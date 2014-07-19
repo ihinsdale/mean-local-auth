@@ -1,0 +1,4 @@
+---
+
+nginx_user: www-data
+root_path: /home/deploy/mean-local-auth/public

@@ -1,0 +1,14 @@
+---
+
+forked_repo_url: URL_OF_YOUR_FORK_OF_MEAN_LOCAL_AUTH
+meanlocalauth_ip: YOUR_SERVER_IP_HERE (e.g. 123.123.123.123)
+vpn_ip: YOUR_IP_HERE
+new_ssh_port: 22
+logwatch_email: YOUR_EMAIL_HERE
+fail2ban_email: YOUR_EMAIL_HERE
+node_port: 3000
+
+# To hash a password using the SHA-512 algorithm, in a Linux environment (note: not Mac OS X) you can use this command:
+# `echo 'import crypt,getpass; print crypt.crypt(getpass.getpass(), "$6$ENTER_A_RANDOM_SALT_HERE")' | python -`
+root_password: 'ENTER_A_CRYPTED_PASSWORD_HERE'
+deploy_password: 'ENTER_ANOTHER_CRYPTED_PASSWORD_HERE'

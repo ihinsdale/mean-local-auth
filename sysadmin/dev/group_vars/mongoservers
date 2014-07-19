@@ -1,0 +1,8 @@
+---
+
+master_user: authority
+master_user_password: CHOOSE_A_PASSWORD
+app_db_user: functionary
+app_db_user_password: CHOOSE_ANOTHER_PASSWORD
+mongo_port: 27017
+db_path: db/data

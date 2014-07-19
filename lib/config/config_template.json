@@ -2,8 +2,8 @@
   "db": {
     "host": "127.0.0.1",
     "port": 27017,
-    "username": "app_db_user",
-    "password": "ENTER_A_PASSWORD_HERE"
+    "username": "functionary",
+    "password": "ENTER_THE_app_db_user_password_CHOSEN_EARLIER"
   },
   "redis": {
     "host": "127.0.0.1",

@@ -96,10 +96,11 @@ exports.signoutHelper = function(agents, callback) {
   }
 };
 
-exports.init = function() {
-  process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
-  // This is necessary for testing purposes so that we can use a self-signed
-  // certificate with our testing suite. Otherwise node gives
-  // Uncaught Error: DEPTH_ZERO_SELF_SIGNED_CERT
-  // Cf. http://stackoverflow.com/questions/19816689/nodejs-supertest-testing-routes-with-certificates
-};
+// If you are using a self-signed SSL certificate, uncomment the below:
+// exports.init = function() {
+//   process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
+//   // This is necessary for testing purposes so that we can use a self-signed
+//   // certificate with our testing suite. Otherwise node gives
+//   // Uncaught Error: DEPTH_ZERO_SELF_SIGNED_CERT
+//   // Cf. http://stackoverflow.com/questions/19816689/nodejs-supertest-testing-routes-with-certificates
+// };
