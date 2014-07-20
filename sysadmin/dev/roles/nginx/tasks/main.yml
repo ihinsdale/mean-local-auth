@@ -1,0 +1,59 @@
+---
+
+- name: Open up port 80 to connections from any address
+  command: ufw allow 80/tcp
+  sudo: yes
+
+- name: Open up port 443 for same reason
+  command: ufw allow 443/tcp
+  sudo: yes
+
+- name: Reload ufw to enable the new settings
+  command: ufw reload
+  sudo: yes
+
+- name: Install python-software-properties so we can add PPA
+  apt: pkg=python-software-properties state=present
+  sudo: yes
+
+- name: Add nginx PPA
+  apt_repository: repo='ppa:nginx/stable'
+  sudo: yes
+
+- name: Install nginx
+  apt: pkg=nginx state=installed update_cache=true
+  sudo: yes
+
+- name: Set nginx to start on boot
+  command: update-rc.d nginx defaults
+  sudo: yes
+
+- name: Make directory for ssl credentials
+  file: path=/etc/nginx/ssl state=directory
+  sudo: yes
+
+- name: Copy over the SSL .crt credential
+  copy: src=ssl-bundle.crt dest=/etc/nginx/ssl/ssl-bundle.crt
+  sudo: yes
+
+- name: Copy over SSL .key credential
+  copy: src=meanlocalauth_com.key dest=/etc/nginx/ssl/meanlocalauth_com.key
+  sudo: yes
+
+- name: Make a copy of the default nginx.conf file if such copy does not already exist
+  command: cp /etc/nginx/nginx.conf /home/deploy/nginx.conf.default
+  sudo: yes
+
+- name: Replace nginx.conf with the one for mean-local-auth
+  template: src=nginx.conf.j2 dest=/etc/nginx/nginx.conf mode=0644
+  sudo: yes
+
+- name: Make the nginx_user the owner of the folder of static assets that will be served by nginx
+  shell: chown -R {{ nginx_user }}:{{ nginx_user }} /home/deploy/mean-local-auth/public
+  sudo: yes
+
+- name: Set read permissions on this folder
+  shell: chmod -R 0755 /home/deploy/mean-local-auth/public
+  sudo: yes
+  notify:
+    - Restart nginx

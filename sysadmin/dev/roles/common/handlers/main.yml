@@ -1,0 +1,13 @@
+---
+
+- name: Restart ssh
+  service: name=ssh state=restarted
+- name: Restart fail2ban
+  service: name=fail2ban state=restarted
+  notify: Update ansible_ssh_port
+- name: Update ansible_ssh_port
+  # We need to do this because restarting SSH implements our change of the SSH port
+  # Note also that this step needs to be the last handler, so that it is the very last
+  # step in the common role, i.e. so we don't need to SSH back into the server as root
+  # which we can't do because that has been disabled after restarting SSH
+  set_fact: ansible_ssh_port={{ new_ssh_port }}

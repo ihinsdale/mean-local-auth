@@ -1,0 +1,50 @@
+---
+# This playbook is executed on mean-local-auth node.js webservers.
+
+- name: Ensure system packages
+  apt: pkg={{ item }} state=present update_cache=yes
+  sudo: yes
+  with_items:
+    - python-software-properties # This is necessary for adding the PPA
+    - make
+    - build-essential
+
+- name: Add node.js PPA
+  apt_repository: repo='ppa:chris-lea/node.js'
+  sudo: yes
+
+- name: Install node.js
+  apt: pkg=nodejs=0.10.29-1chl1~trusty1 state=installed update_cache=true
+  sudo: yes
+
+- name: Copy over the Upstart script which runs node
+  template: src=mean-local-auth.conf.j2 dest=/etc/init/mean-local-auth.conf
+  sudo: yes
+
+- name: Install git
+  apt: pkg=git-core state=present
+  sudo: yes
+
+- name: Clone your fork of the mean-local-auth repo
+  git: repo={{ forked_repo_url }} dest=/home/deploy/mean-local-auth
+
+- name: Copy over the config.json file
+  copy: src=../../../../../lib/config/config.json dest=/home/deploy/mean-local-auth/lib/config/config.json
+
+- name: Install node modules
+  npm: path=/home/deploy/mean-local-auth production=yes
+
+- name: Install Bower components
+  synchronize: src=../../../../../public/bower_components dest=/home/deploy/mean-local-auth/public delete=yes
+
+- name: Reboot which will run the Upstart script that launches node
+  command: reboot
+  sudo: yes
+
+- name: Wait 2 minutes for server to boot up again
+  local_action: wait_for host={{ ansible_ssh_host }} port={{ ansible_ssh_port }} delay=120
+
+- name: Check that node server is launched upon reboot
+  command: sudo service mean-local-auth status
+  register: mean-local-auth_status
+  failed_when: "mean-local-auth_status.stdout.find('start/running') == -1"

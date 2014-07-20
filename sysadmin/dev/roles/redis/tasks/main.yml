@@ -1,0 +1,89 @@
+---
+
+- name: Update apt
+  apt: update_cache=yes
+  sudo: yes
+
+- name: Ensure necessary packages installed
+  apt: pkg={{ item }} state=present
+  sudo: yes
+  with_items:
+    - make
+    - build-essential
+    - tcl8.5
+
+- name: Download latest stable redis (2.8.9)
+  get_url: url=http://download.redis.io/releases/redis-2.8.9.tar.gz dest=/tmp/redis-2.8.9.tar.gz
+
+- name: Untar redis
+  command: tar xvzf /tmp/redis-2.8.9.tar.gz -C /tmp
+
+- name: Build redis
+  command: make -C /tmp/redis-2.8.9
+
+- name: Run make test
+  command: make -C /tmp/redis-2.8.9 test
+
+- name: Make sure that /etc/redis exists
+  file: path=/etc/redis state=directory mode=0755
+  sudo: yes
+
+- name: Make sure that /var/redis exists
+  file: path=/var/redis state=directory mode=0755
+  sudo: yes
+
+- name: Make a copy of the default redis config file
+  shell: cp /tmp/redis-2.8.9/redis.conf /home/deploy/redis.conf.default
+
+- name: Copy over the redis configuration file
+  template: src=redis.conf.j2 dest=/etc/redis/redis.conf
+  sudo: yes
+
+- name: Install redis binaries
+  command: cp /tmp/redis-2.8.9/src/{{ item }} /usr/local/bin
+  with_items:
+    - redis-server
+    - redis-cli
+    - redis-check-aof
+    - redis-check-dump
+  sudo: yes
+
+- name: Clean up build files
+  command: rm -rf /tmp/{{ item }}
+  with_items:
+    - redis-2.8.9
+    - redis-2.8.9.tar.gz
+
+# Make Redis start up on boot
+- name: Copy init script
+  template: src=mean-local-auth_redis_init_script.j2 dest=/etc/init.d/mean-local-auth_redis_init_script mode=0755
+  sudo: yes
+
+- name: Make directory for our Redis data
+  file: path={{ data_dir }} state=directory
+  sudo: yes
+
+- name: Add mean-local-auth_redis_init_script to the default runlevels
+  command: update-rc.d mean-local-auth_redis_init_script defaults
+  sudo: yes
+
+- name: Start Redis
+  command: /etc/init.d/mean-local-auth_redis_init_script start
+
+- name: Ping Redis to make sure it's working
+  command: redis-cli ping
+  register: ping_response
+  failed_when: "ping_response.stdout != 'PONG'"
+
+# Reboot and make sure Redis starts up after reboot
+- name: Reboot
+  command: reboot
+  sudo: yes
+
+- name: Wait 2 minutes for server to boot up again
+  local_action: wait_for host={{ ansible_ssh_host }} port={{ ansible_ssh_port }} delay=120
+
+- name: Ping Redis again to make sure it's working upon reboot
+  command: redis-cli ping
+  register: ping_response2
+  failed_when: "ping_response2.stdout != 'PONG'"

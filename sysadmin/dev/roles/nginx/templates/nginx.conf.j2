@@ -1,0 +1,96 @@
+# Adapted from default nginx.conf that came with v1.6.0
+
+user  {{ nginx_user }};
+worker_processes  1;
+
+pid /run/nginx.pid;
+
+events {
+    worker_connections  768;
+}
+
+http {
+    #server_names_hash_bucket_size  128;
+    types_hash_max_size 2048;
+
+    #proxy_cache_path  /var/cache/nginx levels=1:2 keys_zone=one:8m max_size=3000m inactive=600m;
+    #proxy_temp_path /var/tmp;
+    default_type  application/octet-stream;
+    sendfile        on;
+    keepalive_timeout  65;
+    # (Importing the next block from the default nginx.conf file)
+    include /etc/nginx/mime.types;
+    tcp_nopush on;
+    tcp_nodelay on;
+    log_format  main  '$remote_addr - $remote_user [$time_local] "$request" '
+                      '$status $body_bytes_sent "$http_referer" '
+                      '"$http_user_agent" "$http_x_forwarded_for"';
+    access_log  /var/log/nginx/access.log;
+    error_log  /var/log/nginx/error.log;
+    #include /etc/nginx/conf.d/*.conf;
+
+    gzip on;
+    gzip_disable "msie6";
+    gzip_comp_level 6;
+    gzip_vary on;
+    gzip_min_length  1000;
+    gzip_proxied any;
+    gzip_types text/plain text/css application/json application/x-javascript text/xml application/xml application/xml+rss text/javascript;
+    gzip_buffers 16 8k;
+
+    upstream meanlocalauth_upstream {
+        server 127.0.0.1:{{ node_port }};
+        keepalive 64;
+    }
+
+    server {
+        listen 80;
+        return 301 https://$host$request_uri; # redirects all traffic to the corresponding HTTPS route
+        # Cf. http://serverfault.com/questions/67316/in-nginx-how-can-i-rewrite-all-http-requests-to-https-while-maintaining-sub-dom
+    }
+
+    server {
+        listen 443 ssl;
+
+        ssl_certificate /etc/nginx/ssl/YOUR_CERTIFICATE_FILE.crt;
+        ssl_certificate_key /etc/nginx/ssl/YOUR_PRIVATE_KEY_FILE.key;
+        ssl_protocols        SSLv3 TLSv1;
+        ssl_ciphers HIGH:!aNULL:!MD5;
+
+        server_name {{ meanlocalauth_ip }};
+
+        error_page 502 =200 /views/errors/unscheduled_maintenance.html;
+        error_page 503 =200 /views/errors/scheduled_maintenance.html;
+        error_page 404  /views/errors/404.html;
+
+        root {{ root_path }};
+
+        location ~ ^/(images/|scripts/|styles/|views/|bower_components/|robots.txt|humans.txt|favicon.ico) {
+          access_log off;
+          expires max;
+        }
+
+        location / {
+          # If we want to take the server down for maintenance, just add a file called
+          # maintenance.html to the root dir. Then remove it when finished.
+          if (-f $document_root/maintenance.html) {
+            return 503;
+          }
+
+          proxy_redirect off;
+          proxy_set_header   X-Real-IP            $remote_addr;
+          proxy_set_header   X-Forwarded-For  $proxy_add_x_forwarded_for;
+          proxy_set_header   X-Forwarded-Proto $scheme;
+          proxy_set_header   Host                   $http_host;
+          proxy_set_header   X-NginX-Proxy    true;
+          proxy_set_header   Connection "";
+          proxy_http_version 1.1;
+          #proxy_cache one;
+          #proxy_cache_key sfs$request_uri$scheme;
+          proxy_pass         http://meanlocalauth_upstream;
+          proxy_pass_header X-XSRF-TOKEN; # required for CSRF protection implemented by Express/Angular
+          proxy_intercept_errors on;
+          proxy_next_upstream error timeout;
+        }
+    }
+}

@@ -1,0 +1,72 @@
+---
+
+- name: Install pip required for Ansible pip module
+  apt: pkg=python-pip state=present
+  sudo: yes
+
+- name: Install virtualenv required for Ansible pip module if we ever want to use virtualenv
+  apt: pkg=python-virtualenv state=present
+  sudo: yes
+
+- name: Install build-essential required for PyMongo
+  apt: pkg=build-essential state=present
+  sudo: yes
+
+- name: Install python-dev required for PyMongo
+  apt: pkg=python-dev state=present
+  sudo: yes
+
+  # Install MongoDB
+- name: Import the public key for MongoDB used by the package management system
+  shell: apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 7F0CEB10
+  sudo: yes
+
+- name: Create a list file for MongoDB
+  shell: echo 'deb http://downloads-distro.mongodb.org/repo/ubuntu-upstart dist 10gen' | sudo tee /etc/apt/sources.list.d/mongodb.list
+
+- name: Update apt
+  apt: update_cache=yes
+  sudo: yes
+
+- name: Install MongoDB
+  apt: pkg=mongodb-org=2.6.1 state=present
+  sudo: yes
+
+- name: Create /db/data directory
+  file: path=/home/deploy/{{ db_path }} state=directory
+
+- name: Make the mongodb user (which the Mongo installation creates) the owner of the directory
+  command: chown mongodb:mongodb /home/deploy/{{ db_path }}
+  sudo: yes
+
+- name: Install PyMongo which is required for mongodb_user tasks below
+  pip: name=pymongo
+  sudo: yes
+
+- name: Copy over the mongod.conf file
+  template: src=mongod.conf.j2 dest=/etc/mongod.conf
+  sudo: yes
+
+- name: Restart mongod
+  service: name=mongod state=restarted
+  sudo: yes
+
+# Note that we have to copy over the conf file and restart mongo BEFORE creating
+# the user accounts. That's because our conf file turns on authentication,
+# and we are following this guide: http://docs.mongodb.org/manual/tutorial/enable-authentication/.
+
+- name: Create the master mongo user who creates other user accounts
+  mongodb_user: database=admin user={{ master_user }} password={{ master_user_password }} roles='userAdminAnyDatabase'
+
+- name: Create the user used by the app to read and write
+  mongodb_user: database=mean-local-auth login_user={{ master_user }} login_password={{ master_user_password }} user={{ app_db_user }} password={{ app_db_user_password }} roles='readWrite'
+
+# Note that Mongo is setup to start by default upon boot when installed via apt on Ubuntu.
+
+- name: Open up mongo_port to vpn_ip to allow testing from local dev machine
+  command: ufw allow proto tcp from {{ vpn_ip }} to any port {{ mongo_port }}
+  sudo: yes
+
+- name: Reload ufw to enable the new settings
+  command: ufw reload
+  sudo: yes

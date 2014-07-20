@@ -1,0 +1,38 @@
+---
+# This playbook deploys the whole application stack for mean-local-auth.
+# For use with the 'development' inventory file.
+
+- name: apply the configuration common to all nodes of the app
+  hosts: all
+  remote_user: root
+
+  roles:
+    - common
+
+- name: configure and launch the Mongo database server
+  hosts: mongoservers
+  remote_user: deploy
+
+  roles:
+    - mongo
+
+- name: configure and launch the Redis server
+  hosts: redisservers
+  remote_user: deploy
+
+  roles:
+    - redis
+
+- name: configure and launch the node.js/express web servers and core app code
+  hosts: nodeservers
+  remote_user: deploy
+
+  roles:
+    - node
+
+- name: configure and launch the nginx front-end
+  hosts: nginxservers
+  remote_user: deploy
+
+  roles:
+    - nginx

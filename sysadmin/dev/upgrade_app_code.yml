@@ -1,0 +1,31 @@
+---
+
+- name: Update app code
+  hosts: nodeservers
+  # Note that this playbook is designed for an architecture where nodeservers and nginxservers
+  # point to the same single server. This way updating the code on nodeservers also serves
+  # to update the static files served by nginx. In a multi-server architecture, another task for
+  # updating the static files on nginxservers would be necessary.
+  remote_user: deploy
+  tasks:
+  - name: Stop the node server process
+    service: name=mean-local-auth state=stopped
+    sudo: yes
+
+  - name: Update the app code
+    git: repo={{ forked_repo_url }} dest=/home/deploy/mean-local-auth
+    sudo: yes
+
+  - name: Copy over the config.json file
+    copy: src=../../lib/config/config.json dest=/home/deploy/mean-local-auth/lib/config/config.json
+
+  - name: Install node modules
+    npm: path=/home/deploy/mean-local-auth production=yes
+
+  - name: Install Bower components
+    synchronize: src=../../public/bower_components dest=/home/deploy/mean-local-auth/public delete=yes
+    sudo: yes
+
+  - name: Restart the node server process
+    service: name=mean-local-auth state=restarted
+    sudo: yes

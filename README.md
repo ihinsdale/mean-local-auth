@@ -97,6 +97,8 @@ These Ansible playbooks are written to deploy the app to one server, but they ca
         process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
     at the beginning of `/test/express/auth.js`.
 
+1. You may want to add your SSL certificate and key files to your .gitignore.
+
 1. From within `/sysadmin/dev`, configure `/groups_vars/all` for your situation:
 
     * For `forked_repo_url`, specify the URL of your fork (created in step 1) of the mean-local-auth repo.

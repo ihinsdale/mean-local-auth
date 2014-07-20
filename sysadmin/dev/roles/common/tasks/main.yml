@@ -1,0 +1,101 @@
+---
+# This playbook is executed on all mean-local-auth servers.
+# It makes the fresh servers more secure.
+
+# We don't need to worry about using the sudo option here
+# because all these tasks are executed as the root user.
+
+- name: Change root password
+  user: name=root password={{ root_password }}
+
+- name: Update APT package cache
+  apt: update_cache=yes
+
+- name: Run apt-get upgrade
+  apt: upgrade=yes
+
+- name: Upgrade the kernel
+  apt: pkg=linux-virtual state=latest
+  register: kernelup
+
+- name: Reboot
+  command: reboot
+  when: kernelup.changed
+
+- name: Wait for server to boot up again
+  local_action: wait_for host={{ ansible_ssh_host }} port=22 delay=150
+  when: kernelup.changed
+
+- name: Install fail2ban
+  apt: pkg=fail2ban state=present
+
+- name: Copy over custom fail2ban config file
+  # This file contains mean-local-auth-specific email address, ssh port, and activates email notifications
+  template: src=jail.local.j2 dest=/etc/fail2ban/jail.local
+  notify: Restart fail2ban
+
+- name: Add deployment user
+  user: name=deploy password={{ deploy_password }}
+
+- name: Add authorized deploy key
+  # Note the public key is already on the VPS; it was put there in spinning up the server
+  # The task here just associates the key with the deploy user, so we don't have to SSH in as root
+  authorized_key: user=deploy key="{{ item }}"
+  with_file:
+    - ~/.ssh/{{ ansible_hostname }}.pub
+
+- name: Remove sudo group rights
+  lineinfile: dest=/etc/sudoers regexp="^%sudo" state=absent
+
+- name: Add deploy user to sudoers
+  lineinfile: dest=/etc/sudoers regexp="deploy ALL" line="deploy ALL=(ALL) NOPASSWD:ALL" state=present
+
+- name: Copy over our custom SSH config file
+  # Specifically our changes could have been specified vs. the default via the following lineinfile tasks:
+  # Disallow root access
+  # lineinfile: dest=/etc/ssh/sshd_config regexp="^PermitRootLogin" line="PermitRootLogin no" state=present
+  # Change port from 22 to {{ new_ssh_port }}
+  # lineinfile: dest=/etc/ssh/sshd_config regexp="^Port" line="Port [hardcode new_ssh_port here]" state=present
+  # Disable password authentication
+  # lineinfile: dest=/etc/ssh/sshd_config regexp="^PasswordAuthentication" line="PasswordAuthentication no" state=present
+  # lineinfile: dest=/etc/ssh/sshd_config regexp="^ChallengeResponseAuthentication" line="ChallengeResponseAuthentication no" state=present
+  # lineinfile: dest=/etc/ssh/sshd_config regexp="^PermitEmptyPasswords" line="PermitEmptyPasswords no" state=present
+  # Enable key-based auth
+  # lineinfile: dest=/etc/ssh/sshd_config regexp="^PubkeyAuthentication" line="PubkeyAuthentication yes" state=present
+  template: src=sshd_config.j2 dest=/etc/ssh/sshd_config
+  notify: Restart ssh
+
+- name: Set default for ufw to deny all incoming connections
+  command: ufw default deny incoming
+  sudo: yes
+
+- name: Set default for ufw to allow all outgoing connections
+  command: ufw default allow outgoing
+  sudo: yes
+
+- name: Setup ufw to only allow incoming SSH connections from vpn_ip
+  command: ufw allow proto tcp from {{ vpn_ip }} to any port {{ new_ssh_port }}
+  sudo: yes
+
+- name: Turn on ufw logging
+  command: ufw logging on
+  sudo: yes
+
+- name: Enable ufw
+  shell: echo 'y' | ufw enable
+  sudo: yes
+
+- name: Copy debconf selections so that Postfix can configure itself non-interactively
+  template: src=postfix_selections.j2 dest=/tmp/postfix_selections
+
+- name: Set up Postfix to relay mail
+  command: debconf-set-selections /tmp/postfix_selections
+
+- name: Install logwatch
+  apt: pkg=logwatch state=present
+
+- name: Make logwatch mail {{ logwatch_email }} daily
+  lineinfile: dest=/etc/cron.daily/00logwatch regexp="^/usr/sbin/logwatch" line="/usr/sbin/logwatch --output mail --mailto {{ logwatch_email }} --detail high" state=present create=yes
+
+- name: Install screen
+  apt: pkg=screen state=present
