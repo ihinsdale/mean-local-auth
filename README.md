@@ -30,26 +30,26 @@ mean-local-auth is a seed/starter app for any project that requires local authen
 
 ### Front-end
 
-* ![AngularJS](https://raw.githubusercontent.com/ihinsdale/mean-local-auth/master/readme_badges/angular.png)
+![AngularJS](https://raw.githubusercontent.com/ihinsdale/mean-local-auth/master/readme_badges/angular.png)
 
-* ![Bootstrap](https://raw.githubusercontent.com/ihinsdale/mean-local-auth/master/readme_badges/bootstrap.png)
+![Bootstrap](https://raw.githubusercontent.com/ihinsdale/mean-local-auth/master/readme_badges/bootstrap.png)
 
 
 ### Back-end
 
-* ![Node.js](https://raw.githubusercontent.com/ihinsdale/mean-local-auth/master/readme_badges/nodejs.png)
+![Node.js](https://raw.githubusercontent.com/ihinsdale/mean-local-auth/master/readme_badges/nodejs.png)
 
-* ![Express](https://raw.githubusercontent.com/ihinsdale/mean-local-auth/master/readme_badges/express.png)
+![Express](https://raw.githubusercontent.com/ihinsdale/mean-local-auth/master/readme_badges/express.png)
 
-* ![MongoDB](https://raw.githubusercontent.com/ihinsdale/mean-local-auth/master/readme_badges/mongodb.png)
+![MongoDB](https://raw.githubusercontent.com/ihinsdale/mean-local-auth/master/readme_badges/mongodb.png)
 
-* ![Redis](https://raw.githubusercontent.com/ihinsdale/mean-local-auth/master/readme_badges/redis.png)
+![Redis](https://raw.githubusercontent.com/ihinsdale/mean-local-auth/master/readme_badges/redis.png)
 
-* ![Nginx](https://raw.githubusercontent.com/ihinsdale/mean-local-auth/master/readme_badges/nginx.png)
+![Nginx](https://raw.githubusercontent.com/ihinsdale/mean-local-auth/master/readme_badges/nginx.png)
 
 ### Configuration management
 
-* ![Ansible](https://raw.githubusercontent.com/ihinsdale/mean-local-auth/master/readme_badges/ansible.png)
+![Ansible](https://raw.githubusercontent.com/ihinsdale/mean-local-auth/master/readme_badges/ansible.png)
 
 ##<a name="code-overview"></a>Overview of the code
 
