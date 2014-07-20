@@ -28,8 +28,19 @@ mean-local-auth is a seed/starter app for any project that requires local authen
 
 ##<a name="stack"></a>Stack
 
-Core architecture:
+#### Front-end
+![Bootstrap]()
+![AngularJS]()
 
+#### Back-end
+![Node.js]()
+![Express]()
+![MongoDB]()
+![Redis]()
+![Nginx]()
+
+#### Configuration management
+![Ansible]()
 
 ##<a name="code-overview"></a>Overview of the code
 
