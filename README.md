@@ -28,19 +28,28 @@ mean-local-auth is a seed/starter app for any project that requires local authen
 
 ##<a name="stack"></a>Stack
 
-#### Front-end
-![Bootstrap]()
-![AngularJS]()
+### Front-end
 
-#### Back-end
-![Node.js]()
-![Express]()
-![MongoDB]()
-![Redis]()
-![Nginx]()
+* ![AngularJS](https://raw.githubusercontent.com/ihinsdale/mean-local-auth/master/readme_badges/angular.png)
 
-#### Configuration management
-![Ansible]()
+* ![Bootstrap](https://raw.githubusercontent.com/ihinsdale/mean-local-auth/master/readme_badges/bootstrap.png)
+
+
+### Back-end
+
+* ![Node.js](https://raw.githubusercontent.com/ihinsdale/mean-local-auth/master/readme_badges/nodejs.png)
+
+* ![Express](https://raw.githubusercontent.com/ihinsdale/mean-local-auth/master/readme_badges/express.png)
+
+* ![MongoDB](https://raw.githubusercontent.com/ihinsdale/mean-local-auth/master/readme_badges/mongodb.png)
+
+* ![Redis](https://raw.githubusercontent.com/ihinsdale/mean-local-auth/master/readme_badges/redis.png)
+
+* ![Nginx](https://raw.githubusercontent.com/ihinsdale/mean-local-auth/master/readme_badges/nginx.png)
+
+### Configuration management
+
+* ![Ansible](https://raw.githubusercontent.com/ihinsdale/mean-local-auth/master/readme_badges/ansible.png)
 
 ##<a name="code-overview"></a>Overview of the code
 
