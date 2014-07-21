@@ -9,7 +9,7 @@
     "host": "127.0.0.1",
     "port": 6379,
     "dbs": {
-      "session": 0,
+      "session": 0
     },
     "pass": ""
   },
