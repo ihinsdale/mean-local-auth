@@ -6,9 +6,9 @@ var expect = require('expect.js');
 var _ = require('underscore');
 var async = require('async');
 
-exports.dbClient = require('../../dist/lib/controllers/dbRW.js');
+exports.dbClient = require('../../lib/controllers/dbRW.js');
 
-var config = require('../../dist/lib/config/config.json');
+var config = require('../../lib/config/config.json');
 exports.config = config;
 
 exports.meanlocalauthUrlInsecure = 'http://' + config.publicDNS;
