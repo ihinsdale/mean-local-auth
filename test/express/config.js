@@ -11,9 +11,9 @@ exports.dbClient = require('../../dist/lib/controllers/dbRW.js');
 var config = require('../../dist/lib/config/config.json');
 exports.config = config;
 
-exports.mean-local-authUrlInsecure = 'http://' + config.publicDNS;
-var mean-local-authUrl;
-exports.mean-local-authUrl = mean-local-authUrl = 'https://' + config.publicDNS;
+exports.meanlocalauthUrlInsecure = 'http://' + config.publicDNS;
+var meanlocalauthUrl;
+exports.meanlocalauthUrl = meanlocalauthUrl = 'https://' + config.publicDNS;
 
 exports.dbConnUrl = 'mongodb://' + config.db.username + ':' +
                     config.db.password + '@'+ config.publicDNS + ':' +
@@ -36,7 +36,7 @@ exports.testUser2 = testUser2 = {
 
 exports.signinHelper = function(callback, user, createSignedinAgent_testUser) {
   var agent = superagent.agent();
-  var req = request(mean-local-authUrl).post('/api/signin');
+  var req = request(meanlocalauthUrl).post('/api/signin');
   user = user || testUser; // testUser is the default user to use for auth
   req.send(user);
   req.end(function(err, res) {
@@ -46,7 +46,7 @@ exports.signinHelper = function(callback, user, createSignedinAgent_testUser) {
 
     if (createSignedinAgent_testUser) {
       var agent2 = superagent.agent();
-      var req2 = request(mean-local-authUrl).post('/api/signin');
+      var req2 = request(meanlocalauthUrl).post('/api/signin');
       req2.send(testUser);
       req2.end(function(err2, res2) {
         if (err2) { throw err2; }
@@ -68,7 +68,7 @@ exports.signoutHelper = function(agents, callback) {
     var signoutFcnsArr = [];
     _.each(agents, function(eachAgent, index) {
       signoutFcnsArr.push(function(callback2) {
-        var req = request(mean-local-authUrl).post('/api/signout');
+        var req = request(meanlocalauthUrl).post('/api/signout');
         eachAgent.attachCookies(req);
         req.send({}); // the sending of the JSON must come after the attachment of the cookies
         req.end(function(err, res) {
@@ -86,7 +86,7 @@ exports.signoutHelper = function(agents, callback) {
     });
     // sign out both agent and agent2, i.e. loop through both
   } else {
-    var req = request(mean-local-authUrl).post('/api/signout');
+    var req = request(meanlocalauthUrl).post('/api/signout');
     agents.attachCookies(req);
     req.send({}); // the sending of the JSON must come after the attachment of the cookies
     req.end(function(err, res) {

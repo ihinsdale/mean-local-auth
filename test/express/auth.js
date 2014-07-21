@@ -10,8 +10,8 @@ var mongoose = require('mongoose');
 
 var dbClient = require('./config.js').dbClient;
 var config = require('./config.js').config;
-var mean-local-authUrlInsecure = require('./config.js').mean-local-authUrlInsecure;
-var mean-local-authUrl = require('./config.js').mean-local-authUrl;
+var meanlocalauthUrlInsecure = require('./config.js').meanlocalauthUrlInsecure;
+var meanlocalauthUrl = require('./config.js').meanlocalauthUrl;
 var dbConnUrl = require('./config.js').dbConnUrl;
 
 // test user
@@ -47,7 +47,7 @@ describe('POST /api/signup', function() {
 
   after(function(done) {
     this.timeout(20e3);
-    var req = request(mean-local-authUrl).post('/api/signout');
+    var req = request(meanlocalauthUrl).post('/api/signout');
     agent.attachCookies(req);
     req.send({}); // the sending of the JSON must come after the attachment of the cookies
     req.end(function(err, res) {
@@ -59,7 +59,7 @@ describe('POST /api/signup', function() {
 
   it("should return 301 and redirect to HTTPS if connecting over port 80", function(done) {
     this.timeout(20e3);
-    var req = request(mean-local-authUrlInsecure).post('/api/signup');
+    var req = request(meanlocalauthUrlInsecure).post('/api/signup');
     req.send({
       // we deliberately leave this a bad request so that we don't actually create a user
       // during this step
@@ -76,7 +76,7 @@ describe('POST /api/signup', function() {
 
   it("should return 400 if no username provided", function(done) {
     this.timeout(20e3);
-    var req = request(mean-local-authUrl).post('/api/signup');
+    var req = request(meanlocalauthUrl).post('/api/signup');
     req.send({
       email: testUser.email,
       password: testUser.password
@@ -90,7 +90,7 @@ describe('POST /api/signup', function() {
 
   it("should return 400 if no email provided", function(done) {
     this.timeout(20e3);
-    var req = request(mean-local-authUrl).post('/api/signup');
+    var req = request(meanlocalauthUrl).post('/api/signup');
     req.send({
       username: testUser.username,
       password: testUser.password
@@ -104,7 +104,7 @@ describe('POST /api/signup', function() {
 
   it("should return 400 if no password provided", function(done) {
     this.timeout(20e3);
-    var req = request(mean-local-authUrl).post('/api/signup');
+    var req = request(meanlocalauthUrl).post('/api/signup');
     req.send({
       username: testUser.username,
       email: testUser.email
@@ -118,7 +118,7 @@ describe('POST /api/signup', function() {
 
   it("should return 400 if a username does not contain only alphanumeric characters or dashes", function(done) {
     this.timeout(20e3);
-    var req = request(mean-local-authUrl).post('/api/signup');
+    var req = request(meanlocalauthUrl).post('/api/signup');
     req.send({
       username: 'asdf/asdf',
       email: testUser.email,
@@ -133,7 +133,7 @@ describe('POST /api/signup', function() {
 
   it("should return 400 if a username's first character is a dash", function(done) {
     this.timeout(20e3);
-    var req = request(mean-local-authUrl).post('/api/signup');
+    var req = request(meanlocalauthUrl).post('/api/signup');
     req.send({
       username: '-blahblah',
       email: testUser.email,
@@ -148,7 +148,7 @@ describe('POST /api/signup', function() {
 
   it("should return 400 if a username that is 26 characters is provided", function(done) {
     this.timeout(20e3);
-    var req = request(mean-local-authUrl).post('/api/signup');
+    var req = request(meanlocalauthUrl).post('/api/signup');
     req.send({
       username: 'aaaaaaaaaaaaaaaaaaaaaaaaaa',
       email: testUser.email,
@@ -163,7 +163,7 @@ describe('POST /api/signup', function() {
 
   it("should return 400 if a username that looks like an email address is provided", function(done) {
     this.timeout(20e3);
-    var req = request(mean-local-authUrl).post('/api/signup');
+    var req = request(meanlocalauthUrl).post('/api/signup');
     req.send({
       username: testUser.email,
       email: testUser.email,
@@ -182,7 +182,7 @@ describe('POST /api/signup', function() {
 
   it("should return 400 if an invalid email address is provided", function(done) {
     this.timeout(20e3);
-    var req = request(mean-local-authUrl).post('/api/signup');
+    var req = request(meanlocalauthUrl).post('/api/signup');
     req.send({
       username: testUser.username,
       email: 'test@test',
@@ -197,7 +197,7 @@ describe('POST /api/signup', function() {
 
   it("should return 400 if password fewer than 8 characters is provided", function(done) {
     this.timeout(20e3);
-    var req = request(mean-local-authUrl).post('/api/signup');
+    var req = request(meanlocalauthUrl).post('/api/signup');
     req.send({
       username: testUser.username,
       email: testUser.email,
@@ -212,7 +212,7 @@ describe('POST /api/signup', function() {
 
   it("should return 400 if password does not contain a numeral", function(done) {
     this.timeout(20e3);
-    var req = request(mean-local-authUrl).post('/api/signup');
+    var req = request(meanlocalauthUrl).post('/api/signup');
     req.send({
       username: testUser.username,
       email: testUser.email,
@@ -227,7 +227,7 @@ describe('POST /api/signup', function() {
 
   it("should return 400 if password does not contain an uppercase letter", function(done) {
     this.timeout(20e3);
-    var req = request(mean-local-authUrl).post('/api/signup');
+    var req = request(meanlocalauthUrl).post('/api/signup');
     req.send({
       username: testUser.username,
       email: testUser.email,
@@ -242,7 +242,7 @@ describe('POST /api/signup', function() {
 
   it("should return 200 for successful signup", function(done) {
     this.timeout(20e3);
-    var req = request(mean-local-authUrl).post('/api/signup');
+    var req = request(meanlocalauthUrl).post('/api/signup');
     req.send({
       username: testUser.username,
       email: testUser.email,
@@ -258,7 +258,7 @@ describe('POST /api/signup', function() {
 
   it("should return 409 if username is taken", function(done) {
     this.timeout(20e3);
-    var req = request(mean-local-authUrl).post('/api/signup');
+    var req = request(meanlocalauthUrl).post('/api/signup');
     req.send({
       username: testUser.username,
       email: 'differentemail@example.com',
@@ -273,7 +273,7 @@ describe('POST /api/signup', function() {
 
   it("should return 400 if email address is already in use", function(done) {
     this.timeout(20e3);
-    var req = request(mean-local-authUrl).post('/api/signup');
+    var req = request(meanlocalauthUrl).post('/api/signup');
     req.send({
       username: 'differentuser',
       email: testUser.email,
@@ -288,7 +288,7 @@ describe('POST /api/signup', function() {
 
   it("should authenticate the user after successful signup", function(done) {
     this.timeout(20e3);
-    var req = request(mean-local-authUrl).get('/api/is_authenticated');
+    var req = request(meanlocalauthUrl).get('/api/is_authenticated');
     agent.attachCookies(req);
     req.end(function(err, res) {
       if (err) throw err;
@@ -310,7 +310,7 @@ describe('POST /api/signin', function() {
   before(function(done) {
     this.timeout(20e3);
     // make sure the testUser is not signed in at the time we make these signin attempts
-    var req = request(mean-local-authUrl).post('/api/signout');
+    var req = request(meanlocalauthUrl).post('/api/signout');
     agent.attachCookies(req);
     req.send({}); // the sending of the JSON must come after the attachment of the cookies
     req.end(function(err, res) {
@@ -328,7 +328,7 @@ describe('POST /api/signin', function() {
   afterEach(function(done) {
     this.timeout(20e3);
     // sign the testUser out after each test--this ensures that we are testing signin fresh every time
-    var req = request(mean-local-authUrl).post('/api/signout');
+    var req = request(meanlocalauthUrl).post('/api/signout');
     agent.attachCookies(req);
     req.send({}); // the sending of the JSON must come after the attachment of the cookies
     req.end(function(err, res) {
@@ -339,7 +339,7 @@ describe('POST /api/signin', function() {
 
   it("should reject a signin attempt for a username who doesn't exist", function(done) {
     this.timeout(20e3);
-    var req = request(mean-local-authUrl).post('/api/signin');
+    var req = request(meanlocalauthUrl).post('/api/signin');
     req.send({
       username: 'fake-user',
       password: testUser.password
@@ -353,7 +353,7 @@ describe('POST /api/signin', function() {
 
   it("should reject a signin attempt for an email address that doesn't exist", function(done) {
     this.timeout(20e3);
-    var req = request(mean-local-authUrl).post('/api/signin');
+    var req = request(meanlocalauthUrl).post('/api/signin');
     req.send({
       username: 'fakeuser@fakeuser.com',
       password: testUser.password
@@ -367,7 +367,7 @@ describe('POST /api/signin', function() {
 
   it("should reject a signin attempt with an incorrect password", function(done) {
     this.timeout(20e3);
-    var req = request(mean-local-authUrl).post('/api/signin');
+    var req = request(meanlocalauthUrl).post('/api/signin');
     req.send({
       username: testUser.username,
       password: 'incorrectPassword1'
@@ -381,7 +381,7 @@ describe('POST /api/signin', function() {
 
   it("should allow successful login with a username", function(done) {
     this.timeout(40e3);
-    var req = request(mean-local-authUrl).post('/api/signin');
+    var req = request(meanlocalauthUrl).post('/api/signin');
     req.send({
       username: testUser.username,
       password: testUser.password
@@ -392,7 +392,7 @@ describe('POST /api/signin', function() {
       agent.saveCookies(res.res);
       // note that the logic below checking that user is authenticated is
       // a duplicate of code in the /signup section
-      var req2 = request(mean-local-authUrl).get('/api/is_authenticated');
+      var req2 = request(meanlocalauthUrl).get('/api/is_authenticated');
       agent.attachCookies(req2);
       req2.end(function(err2, res2) {
         if (err2) throw err2;
@@ -410,7 +410,7 @@ describe('POST /api/signin', function() {
 
   it("should allow successful login with an email address", function(done) {
     this.timeout(20e3);
-    var req = request(mean-local-authUrl).post('/api/signin');
+    var req = request(meanlocalauthUrl).post('/api/signin');
     req.send({
       username: testUser.email,
       password: testUser.password
@@ -421,7 +421,7 @@ describe('POST /api/signin', function() {
       agent.saveCookies(res.res);
       // note that the logic below checking that user is authenticated is
       // a duplicate of code in the /signup section
-      var req2 = request(mean-local-authUrl).get('/api/is_authenticated');
+      var req2 = request(meanlocalauthUrl).get('/api/is_authenticated');
       agent.attachCookies(req2);
       req2.end(function(err2, res2) {
         if (err2) throw err2;
@@ -445,7 +445,7 @@ describe('POST /api/signout', function() {
     this.timeout(20e3);
     // make sure testUser is signed in
     agent = superagent.agent();
-    var req = request(mean-local-authUrl).post('/api/signin');
+    var req = request(meanlocalauthUrl).post('/api/signin');
     req.send({
       username: testUser.username,
       password: testUser.password
@@ -459,7 +459,7 @@ describe('POST /api/signout', function() {
 
   it("should successfully signout an authenticated user", function(done) {
     this.timeout(20e3);
-    var req = request(mean-local-authUrl).post('/api/signout');
+    var req = request(meanlocalauthUrl).post('/api/signout');
     agent.attachCookies(req);
     req.send({}); // the sending of the JSON must come after the attachment of the cookies
     req.end(function(err, res) {
@@ -471,7 +471,7 @@ describe('POST /api/signout', function() {
 
   it("should reject a signout attempt for a user who exists but isn't authenticated, namely the user signed out in previous test", function(done) {
     this.timeout(20e3);
-    var req = request(mean-local-authUrl).post('/api/signout');
+    var req = request(meanlocalauthUrl).post('/api/signout');
     agent.attachCookies(req);
     req.send({});
     req.end(function(err, res) {
@@ -490,7 +490,7 @@ describe('POST /api/forgot_password', function() {
 
   it("should reject a forgot_password attempt for an email that doesn't exist", function(done) {
     this.timeout(20e3);
-    var req = request(mean-local-authUrl).post('/api/forgot_password');
+    var req = request(meanlocalauthUrl).post('/api/forgot_password');
     req.send({
       email: 'fake-email@fake.com'
     });
@@ -503,7 +503,7 @@ describe('POST /api/forgot_password', function() {
 
   it("should reject an 'email' that isn't a well-formed email address", function(done) {
     this.timeout(20e3);
-    var req = request(mean-local-authUrl).post('/api/forgot_password');
+    var req = request(meanlocalauthUrl).post('/api/forgot_password');
     req.send({
       email: 'fake-email@invalid'
     });
@@ -525,7 +525,7 @@ describe('POST /api/reset_password', function() {
   before(function(done) {
     this.timeout(20e3);
     agent = superagent.agent();
-    var req = request(mean-local-authUrl).post('/api/forgot_password');
+    var req = request(meanlocalauthUrl).post('/api/forgot_password');
     req.send({
       email: config.testing.email
     });
@@ -539,7 +539,7 @@ describe('POST /api/reset_password', function() {
 
   it("should reject a request for which a reset token hasn't been set", function(done) {
     this.timeout(20e3);
-    var req = request(mean-local-authUrl).post('/api/reset_password');
+    var req = request(meanlocalauthUrl).post('/api/reset_password');
     // by not attaching any cookies, we ensure that from the server's point of view the user is a
     // new session who has not requested a reset
     req.send({
@@ -555,7 +555,7 @@ describe('POST /api/reset_password', function() {
 
   it("should reject passwords that don't match", function(done) {
     this.timeout(20e3);
-    var req = request(mean-local-authUrl).post('/api/reset_password');
+    var req = request(meanlocalauthUrl).post('/api/reset_password');
     agent.attachCookies(req);
     req.send({
       password: 'Validpass1',
@@ -570,7 +570,7 @@ describe('POST /api/reset_password', function() {
 
   it("should reject a password that doesn't meet the requirements", function(done) {
     this.timeout(20e3);
-    var req = request(mean-local-authUrl).post('/api/reset_password');
+    var req = request(meanlocalauthUrl).post('/api/reset_password');
     agent.attachCookies(req);
     req.send({
       password: 'invalidpass',
@@ -598,7 +598,7 @@ describe('POST /api/check/username', function() {
 
   it("should return { isUnique: false } for a taken username", function(done) {
     this.timeout(20e3);
-    var req = request(mean-local-authUrl).post('/api/check/username');
+    var req = request(meanlocalauthUrl).post('/api/check/username');
     req.send({ field: testUser.username });
     req.end(function(err, res) {
       if (err) throw err;
@@ -611,7 +611,7 @@ describe('POST /api/check/username', function() {
 
   it("should return { isUnique: true } for an available username", function(done) {
     this.timeout(20e3);
-    var req = request(mean-local-authUrl).post('/api/check/username');
+    var req = request(meanlocalauthUrl).post('/api/check/username');
     req.send({ field: 'availableUser' });
     req.end(function(err, res) {
       if (err) throw err;
@@ -631,7 +631,7 @@ describe('POST /api/check/email', function() {
 
   it("should return { isUnique: false } for an email that is already in use", function(done) {
     this.timeout(20e3);
-    var req = request(mean-local-authUrl).post('/api/check/email');
+    var req = request(meanlocalauthUrl).post('/api/check/email');
     req.send({ field: testUser.email });
     req.end(function(err, res) {
       if (err) throw err;
@@ -644,7 +644,7 @@ describe('POST /api/check/email', function() {
 
   it("should return { isUnique: true } for an email that can be used", function(done) {
     this.timeout(20e3);
-    var req = request(mean-local-authUrl).post('/api/check/email');
+    var req = request(meanlocalauthUrl).post('/api/check/email');
     req.send({ field: 'available@email.com' });
     req.end(function(err, res) {
       if (err) throw err;
