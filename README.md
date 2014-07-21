@@ -100,10 +100,9 @@ These Ansible playbooks are written to deploy the app to one server, but they ca
 1. You may want to add your SSL certificate and key files to your .gitignore.
 
 1. From within `/sysadmin/dev`, configure `/groups_vars/all` for your situation:
-
     * For `forked_repo_url`, specify the URL of your fork (created in step 1) of the mean-local-auth repo.
 
-    Note that if your fork is private, you will need to customize the `Clone your fork of the mean-local-auth repo` task in `/sysadmin/dev/roles/node/tasks/main.yml` with the authentication credentials necessary to clone your repo.
+        Note that if your fork is private, you will need to customize the `Clone your fork of the mean-local-auth repo` task in `/sysadmin/dev/roles/node/tasks/main.yml` with the authentication credentials necessary to clone your repo.
     * Specify the IP of the server where the app will be deployed, in the `meanlocalauth_ip` variable.
     * mean-local-auth assumes you'll be SSHing into your server from a VPN or at least a static IP. Specify the IP you'll be connecting to your server from, in the `vpn_ip` variable. This is the only IP address which will have SSH access to your server.
     * In `new_ssh_port`, you can specify an alternate port to connect via SSH, if you don't like 22. If you do choose an alternate, make sure it's less than 1024.
