@@ -27,7 +27,20 @@ angular
       })
       .when('/user/:username', {
         templateUrl: 'views/user-home.html',
-        controller: 'UserHomeCtrl'
+        controller: 'UserHomeCtrl',
+        resolve: {
+          userInfo: ['$http', '$q', '$route', function($http, $q, $route) {
+            var d = $q.defer();
+            $http.get('/api/users/' + $route.current.params.username)
+            .success(function(data, status) {
+              d.resolve(data);
+            })
+            .error(function(reason, status) {
+              d.reject(reason);
+            });
+            return d.promise;
+          }]
+        }
       })
       .when('/forgot-password', {
         templateUrl: 'views/forgot-password.html',
