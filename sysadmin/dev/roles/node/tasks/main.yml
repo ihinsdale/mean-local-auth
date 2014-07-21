@@ -35,7 +35,7 @@
   npm: path=/home/deploy/mean-local-auth production=yes
 
 - name: Install Bower components
-  synchronize: src=../../../../../public/bower_components dest=/home/deploy/mean-local-auth/public delete=yes
+  synchronize: src=../../public/bower_components dest=/home/deploy/mean-local-auth/public delete=yes
 
 - name: Reboot which will run the Upstart script that launches node
   command: reboot

@@ -80,7 +80,9 @@ These Ansible playbooks are written to deploy the app to one server, but they ca
 
 #### Deploying mean-local-auth for the first time:
 
-1. Fork the mean-local-auth repo so that you have your own copy.
+1. Fork the mean-local-auth repo, and clone your fork on your local development machine.
+
+1. Within the project directory, run `bower install` and `npm install` to install dependencies.
 
 1. On your local development machine, create an RSA keypair for SSHing into the server where you'll deploy mean-local-auth. mean-local-auth assumes this keypair will be called `mean-local-auth` and will be located in `~/.ssh`. You can use the following command:
 
@@ -142,8 +144,9 @@ These Ansible playbooks are written to deploy the app to one server, but they ca
 
     If you used ansible-vault to encrypt your `/group_vars` files, you will need to add the `--ask-vault-pass` flag to this command.
 
-That's it! If the playbook finished without error, as it should have, your own version of mean-local-auth will be up and running!
+That's it! If the playbook finished without error, as it should have, your own version of mean-local-auth will be up and running. In a browser, navigate to your server's address and see!
 
+This deployment procedure has been tested successfully multiple times. Nevertheless, if you have any problems, please open an [issue ticket](https://github.com/ihinsdale/mean-local-auth/issues).
 
 #### Upgrading your app code
 

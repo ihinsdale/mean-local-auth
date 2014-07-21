@@ -1,6 +1,6 @@
 ---
 
-forked_repo_url: URL_OF_YOUR_FORK_OF_MEAN_LOCAL_AUTH
+forked_repo_url: GIT_URL_OF_YOUR_FORK_OF_MEAN_LOCAL_AUTH
 meanlocalauth_ip: YOUR_SERVER_IP_HERE (e.g. 123.123.123.123)
 vpn_ip: YOUR_IP_HERE
 new_ssh_port: 22
