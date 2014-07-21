@@ -83,22 +83,22 @@ These Ansible playbooks are written to deploy the app to one server, but they ca
 1. Fork the mean-local-auth repo so that you have your own copy.
 
 1. On your local development machine, create an RSA keypair for SSHing into the server where you'll deploy mean-local-auth. mean-local-auth assumes this keypair will be called `mean-local-auth` and will be located in `~/.ssh`. You can use the following command:
-        
+
         ssh-keygen -t rsa -f ~/.ssh/mean-local-auth -N ''
 
 1. Create a server with your favored cloud provider (e.g. DigitalOcean, AWS). It should run Ubuntu 14.04 x64. When creating your server, specify `mean-local-auth.pub` for use with SSH.
 
-1. If you already have an SSL certificate and private key for your server, place them in `/sysadmin/dev/roles/nginx/files`. Update lines 55 and 56 of `/sysadmin/dev/roles/nginx/templates/nginx.conf.j2` with the filenames of your certificate and key. If you need to generate your own certificate and key, you may use:
+1. If you already have an SSL certificate and private key for your server, place them in `/sysadmin/dev/roles/nginx/files` in your clone of the mean-local-auth repo. Update lines 55 and 56 of `/sysadmin/dev/roles/nginx/templates/nginx.conf.j2` with the filenames of your certificate and key.
+
+    If you need to generate your own certificate and key, you may use:
 
         cd sysadmin/dev/roles/nginx/files
         sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout server.key -out server.crt
 
-    Update lines 55 and 56 with server.crt and server.key respectively.
+    Use your domain name, if you have one, or the IP address of your server for the certificate's Common Name. Update lines 55 and 56 with server.crt and server.key respectively. Note that if you use a self-signed SSL certificate, for the tests in ``/test/express/auth.js` to work you will need to ensure you have set
 
-    Note that if you use a self-signed SSL certificate, for the tests in ``/test/express/auth.js` to work you will need to ensure you have set
-    
         process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
-        
+
     at the beginning of `/test/express/auth.js`.
 
 1. You may want to add your SSL certificate and key files to your .gitignore.
@@ -131,7 +131,7 @@ These Ansible playbooks are written to deploy the app to one server, but they ca
 1. If you don't want your configuration information/credentials to be stored in version control, add a line for config.json to your .gitignore file, then type:
 
         git rm --cached lib/config/config.json
-    
+
     to untrack the file from your repo. Then commit and push to origin.
 
 1. In the `/sysadmin/dev/development` inventory file, replace all four instances of `ansible_ssh_host=` with the IP address of your server. This will be the same IP you used to define `meanlocalauth_ip` in `/group_vars/all`.
@@ -139,7 +139,7 @@ These Ansible playbooks are written to deploy the app to one server, but they ca
 1. You are now ready to deploy. From within `/sysadmin/dev`, run:
 
         ansible-playbook -i development site.yml -vvvv
-        
+
     If you used ansible-vault to encrypt your `/group_vars` files, you will need to add the `--ask-vault-pass` flag to this command.
 
 That's it! If the playbook finished without error, as it should have, your own version of mean-local-auth will be up and running!
