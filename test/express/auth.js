@@ -251,6 +251,9 @@ describe('POST /api/signup', function() {
     req.end(function(err, res) {
       if (err) throw err;
       expect(res.status).to.eql(200);
+      expect(res.body).to.be.an('object');
+      expect(res.body).to.have.key('username');
+      expect(res.body.username).to.eql(testUser.username);
       agent.saveCookies(res.res);
       done();
     });
@@ -298,7 +301,6 @@ describe('POST /api/signup', function() {
       expect(res.body).to.have.key('status');
       expect(res.body.status).to.eql(true);
       expect(res.body.username).to.eql(testUser.username);
-      // TODO - also expect a user cookie to come with this response
       done();
     });
   });
@@ -389,6 +391,9 @@ describe('POST /api/signin', function() {
     req.end(function(err, res) {
       if (err) throw err;
       expect(res.status).to.eql(200);
+      expect(res.body).to.be.an('object');
+      expect(res.body).to.have.key('username');
+      expect(res.body.username).to.eql(testUser.username);
       agent.saveCookies(res.res);
       // note that the logic below checking that user is authenticated is
       // a duplicate of code in the /signup section
@@ -402,7 +407,6 @@ describe('POST /api/signin', function() {
         expect(res2.body).to.have.key('status');
         expect(res2.body.status).to.eql(true);
         expect(res2.body.username).to.eql(testUser.username);
-        // TODO - also expect a user cookie to come with this response
         done();
       });
     });
@@ -418,6 +422,9 @@ describe('POST /api/signin', function() {
     req.end(function(err, res) {
       if (err) throw err;
       expect(res.status).to.eql(200);
+      expect(res.body).to.be.an('object');
+      expect(res.body).to.have.key('username');
+      expect(res.body.username).to.eql(testUser.username);
       agent.saveCookies(res.res);
       // note that the logic below checking that user is authenticated is
       // a duplicate of code in the /signup section
@@ -431,7 +438,6 @@ describe('POST /api/signin', function() {
         expect(res2.body).to.have.key('status');
         expect(res2.body.status).to.eql(true);
         expect(res2.body.username).to.eql(testUser.username);
-        // TODO - also expect a user cookie to come with this response
         done();
       });
     });
