@@ -26,6 +26,7 @@
   },
   "AWSSES": {
     "accessKeyId": "ENTER_YOUR_OWN",
-    "secretAccessKey": "ENTER_YOUR_OWN"
+    "secretAccessKey": "ENTER_YOUR_OWN",
+    "region": "us-east-1"
   }
 }
