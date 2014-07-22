@@ -127,8 +127,11 @@ These Ansible playbooks are written to deploy the app to one server, but they ca
     * For `db.password`, enter the `app_db_user_password` you specified in `/sysadmin/dev/group_vars/mongoservers`.
     * Choose secrets for `secrets.cookieParser` and `secrets.session`.
     * For `publicDNS`, enter the domain name (e.g. example.com) or IP address of your server.
-    * In `testing.email` and `testing.email2`, enter different email address that can be used by the tests in `/test/express/auth.js` to test the creation of user accounts.
-    * In `AWSSES`, enter the access key id and secret access key associated with your AWS account. These credentials are used to send password reset emails via AWS's Simple Email Service. If you prefer to use a different provider for sending password reset emails, you would customize `forgot` within `/lib/routes/passwordReset.js`.
+    * For `passwordResetSenderEmail`, enter an email address you control. This email address will be the sender of password reset emails.
+    * In `AWSSES`, enter the access key id and secret access key associated with your AWS account. These credentials are used to send password reset emails via AWS's Simple Email Service (SES). To successfully send password reset emails, you will need to login to SES and follow the steps to verify the email address you specified in `passwordResetSenderEmail`.
+
+        If you prefer to use a different provider for sending password reset emails, you would customize `forgot` within `/lib/routes/passwordReset.js`.
+    * In `testing.email` and `testing.email2`, enter different email addresses that can be used by the tests in `/test/express/auth.js` to test the creation of user accounts.
 
 1. If you don't want your configuration information/credentials to be stored in version control, add a line for config.json to your .gitignore file, then type:
 

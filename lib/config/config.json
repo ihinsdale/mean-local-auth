@@ -19,7 +19,7 @@
   },
   "publicDNS": "ENTER_YOUR_DNS_NAME_HERE",
   "port": 3000,
-  "passResetEmailHandle": "noreply",
+  "passwordResetSenderEmail": "ENTER_AN_EMAIL_ADDRESS_YOU_CONTROL",
   "testing": {
     "email": "ENTER_AN_EMAIL_ADDRESS",
     "email2": "ENTER_A_DIFFERENT_EMAIL_ADDRESS"
