@@ -35,8 +35,8 @@ angular.module('mean-local-authApp.services')
         console.log('inside authHelper success');
         console.log('responseData are:', responseData);
         console.log('status:', status);
-        service.currentUser = data.username;
-        d.resolve(data.username);
+        service.currentUser = responseData.username;
+        d.resolve(responseData.username);
       })
       .error(function(reason, status) {
         console.log('Error:', reason);
