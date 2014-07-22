@@ -128,7 +128,7 @@ These Ansible playbooks are written to deploy the app to one server, but they ca
     * Choose secrets for `secrets.cookieParser` and `secrets.session`.
     * For `publicDNS`, enter the domain name (e.g. example.com) or IP address of your server.
     * For `passwordResetSenderEmail`, enter an email address you control. This email address will be the sender of password reset emails.
-    * In `AWSSES`, enter the access key id and secret access key associated with your AWS account. These credentials are used to send password reset emails via AWS's Simple Email Service (SES). To successfully send password reset emails, you will need to login to SES and follow the necessary steps to verify the email address you specified in `passwordResetSenderEmail`. If your SES account uses a region other than us-east-1, update `AWSSES.region` accordingly.
+    * In `AWSSES`, enter the access key id and secret access key associated with your AWS account. These credentials are used to send password reset emails via AWS's Simple Email Service (SES). To successfully send password reset emails, you will need to login to SES and follow the necessary steps to verify the email address you specified in `passwordResetSenderEmail`. If your SES account uses a region other than us-east-1, update `AWSSES.regionUrl` accordingly.
 
         If you prefer to use a different provider for sending password reset emails, you would customize `forgot` within `/lib/routes/passwordReset.js`.
     * In `testing.email` and `testing.email2`, enter different email addresses that can be used by the tests in `/test/express/auth.js` to test the creation of user accounts.
