@@ -11,15 +11,32 @@ mean-local-auth
 * [License](#license)
 
 ##<a name="demo"></a>Demo
-Check it out: [https://meanlocalauth.com](https://meanlocalauth.com)
 
-Screenshots:
+### Check it out:
 
-<img src="https://raw.githubusercontent.com/ihinsdale/mean-local-auth/master/screenshots/signup.png" alt="Sign up screenshot" height="180px"/>
-<img src="https://raw.githubusercontent.com/ihinsdale/mean-local-auth/master/screenshots/signin.png" alt="Sign in screenshot" height="180px"/>
-<img src="https://raw.githubusercontent.com/ihinsdale/mean-local-auth/master/screenshots/passwordresetrequest.png" alt="Password reset request screenshot" height="150px"/>
-<img src="https://raw.githubusercontent.com/ihinsdale/mean-local-auth/master/screenshots/changepassword.png" alt="Change password screenshot" height="150px"/>
-<img src="https://raw.githubusercontent.com/ihinsdale/mean-local-auth/master/screenshots/successfulpasswordchange.png" alt="Successful password change screenshot" height="150px"/>
+[https://meanlocalauth.com](https://meanlocalauth.com)
+
+### Screenshots:
+
+Sign up:
+
+<img src="https://raw.githubusercontent.com/ihinsdale/mean-local-auth/master/screenshots/signup.png" alt="Sign up screenshot" width="300px"/>
+
+Sign in:
+
+<img src="https://raw.githubusercontent.com/ihinsdale/mean-local-auth/master/screenshots/signin.png" alt="Sign in screenshot" width="300px"/>
+
+Password reset request:
+
+<img src="https://raw.githubusercontent.com/ihinsdale/mean-local-auth/master/screenshots/passwordresetrequest.png" alt="Password reset request screenshot" width="300px"/>
+
+Change password:
+
+<img src="https://raw.githubusercontent.com/ihinsdale/mean-local-auth/master/screenshots/changepassword.png" alt="Change password screenshot" width="300px"/>
+
+Successful password change:
+
+<img src="https://raw.githubusercontent.com/ihinsdale/mean-local-auth/master/screenshots/successfulpasswordchange.png" alt="Successful password change screenshot" width="300px"/>
 
 ##<a name="description"></a>Description
 
