@@ -15,11 +15,11 @@ Check it out: [https://meanlocalauth.com](https://meanlocalauth.com)
 
 Screenshots:
 
-<img src="https://raw.githubusercontent.com/ihinsdale/mean-local-auth/master/screenshots/signup.jpg" alt="Sign up screenshot" style="width: 200px;"/>
-<img src="https://raw.githubusercontent.com/ihinsdale/mean-local-auth/master/screenshots/signin.jpg" alt="Sign in screenshot" style="width: 200px;"/>
-<img src="https://raw.githubusercontent.com/ihinsdale/mean-local-auth/master/screenshots/passwordresetrequest.jpg" alt="Password reset request screenshot" style="width: 200px;"/>
-<img src="https://raw.githubusercontent.com/ihinsdale/mean-local-auth/master/screenshots/changepassword.jpg" alt="Change password screenshot" style="width: 200px;"/>
-<img src="https://raw.githubusercontent.com/ihinsdale/mean-local-auth/master/screenshots/successfulpasswordchange.jpg" alt="Successful password change screenshot" style="width: 200px;"/>
+<img src="https://raw.githubusercontent.com/ihinsdale/mean-local-auth/master/screenshots/signup.png" alt="Sign up screenshot" style="width: 200px;"/>
+<img src="https://raw.githubusercontent.com/ihinsdale/mean-local-auth/master/screenshots/signin.png" alt="Sign in screenshot" style="width: 200px;"/>
+<img src="https://raw.githubusercontent.com/ihinsdale/mean-local-auth/master/screenshots/passwordresetrequest.png" alt="Password reset request screenshot" style="width: 200px;"/>
+<img src="https://raw.githubusercontent.com/ihinsdale/mean-local-auth/master/screenshots/changepassword.png" alt="Change password screenshot" style="width: 200px;"/>
+<img src="https://raw.githubusercontent.com/ihinsdale/mean-local-auth/master/screenshots/successfulpasswordchange.png" alt="Successful password change screenshot" style="width: 200px;"/>
 
 ##<a name="description"></a>Description
 
