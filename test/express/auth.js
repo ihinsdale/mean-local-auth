@@ -489,10 +489,6 @@ describe('POST /api/signout', function() {
 });
 
 describe('POST /api/forgot_password', function() {
-  beforeEach(function(done) {
-    agent = superagent.agent();
-    done();
-  });
 
   it("should reject a forgot_password attempt for an email that doesn't exist", function(done) {
     this.timeout(20e3);
@@ -520,10 +516,17 @@ describe('POST /api/forgot_password', function() {
     });
   });
 
-  it("should successfully send a reset email and redirect to the change-password page", function(done) {
+  it("should successfully send a reset email", function(done) {
     this.timeout(20e3);
-    // TODO - not sure how to successfully test this sending of an email
-    done();
+    var req = request(meanlocalauthUrl).post('/api/forgot_password');
+    req.send({
+      email: testUser.email
+    });
+    req.end(function(err, res) {
+      if (err) throw err;
+      expect(res.status).to.eql(200);
+      done();
+    });
   });
 });
 
@@ -597,10 +600,6 @@ describe('POST /api/reset_password', function() {
 });
 
 describe('POST /api/check/username', function() {
-  before(function(done) {
-    this.timeout(20e3);
-    done();
-  });
 
   it("should return { isUnique: false } for a taken username", function(done) {
     this.timeout(20e3);
@@ -630,10 +629,6 @@ describe('POST /api/check/username', function() {
 });
 
 describe('POST /api/check/email', function() {
-  before(function(done) {
-    this.timeout(20e3);
-    done();
-  });
 
   it("should return { isUnique: false } for an email that is already in use", function(done) {
     this.timeout(20e3);
@@ -660,4 +655,5 @@ describe('POST /api/check/email', function() {
       done();
     });
   });
+
 });
