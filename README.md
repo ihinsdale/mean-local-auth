@@ -18,25 +18,13 @@ mean-local-auth
 
 ### Screenshots:
 
-Sign up:
+| Sign up | Sign in |
+| ------- | ------- |
+| <img src="https://raw.githubusercontent.com/ihinsdale/mean-local-auth/master/screenshots/signup.png" alt="Sign up screenshot" width="300px"/> | <img src="https://raw.githubusercontent.com/ihinsdale/mean-local-auth/master/screenshots/signin.png" alt="Sign in screenshot" width="300px"/> |
 
-<img src="https://raw.githubusercontent.com/ihinsdale/mean-local-auth/master/screenshots/signup.png" alt="Sign up screenshot" width="300px"/>
-
-Sign in:
-
-<img src="https://raw.githubusercontent.com/ihinsdale/mean-local-auth/master/screenshots/signin.png" alt="Sign in screenshot" width="300px"/>
-
-Password reset request:
-
-<img src="https://raw.githubusercontent.com/ihinsdale/mean-local-auth/master/screenshots/passwordresetrequest.png" alt="Password reset request screenshot" width="300px"/>
-
-Change password:
-
-<img src="https://raw.githubusercontent.com/ihinsdale/mean-local-auth/master/screenshots/changepassword.png" alt="Change password screenshot" width="300px"/>
-
-Successful password change:
-
-<img src="https://raw.githubusercontent.com/ihinsdale/mean-local-auth/master/screenshots/successfulpasswordchange.png" alt="Successful password change screenshot" width="300px"/>
+| Password reset request | Change password | Password changed |
+| ---------------------- | --------------- | ---------------- |
+| <img src="https://raw.githubusercontent.com/ihinsdale/mean-local-auth/master/screenshots/passwordresetrequest.png" alt="Password reset request screenshot" width="300px"/> | <img src="https://raw.githubusercontent.com/ihinsdale/mean-local-auth/master/screenshots/changepassword.png" alt="Change password screenshot" width="300px"/> | <img src="https://raw.githubusercontent.com/ihinsdale/mean-local-auth/master/screenshots/successfulpasswordchange.png" alt="Successful password change screenshot" width="300px"/> |
 
 ##<a name="description"></a>Description
 
