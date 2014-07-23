@@ -12,9 +12,7 @@ mean-local-auth
 
 ##<a name="demo"></a>Demo
 
-### Check it out:
-
-[https://meanlocalauth.com](https://meanlocalauth.com)
+### Check it out: [https://meanlocalauth.com](https://meanlocalauth.com)
 
 ### Screenshots:
 
@@ -41,28 +39,13 @@ mean-local-auth is a seed/starter app for any project that requires local authen
 
 ##<a name="stack"></a>Stack
 
-### Front-end
-
-![AngularJS](https://raw.githubusercontent.com/ihinsdale/mean-local-auth/master/readme_badges/angular.png)
-
-![Bootstrap](https://raw.githubusercontent.com/ihinsdale/mean-local-auth/master/readme_badges/bootstrap.png)
-
-
-### Back-end
-
-![Node.js](https://raw.githubusercontent.com/ihinsdale/mean-local-auth/master/readme_badges/nodejs.png)
-
-![Express](https://raw.githubusercontent.com/ihinsdale/mean-local-auth/master/readme_badges/express.png)
-
-![MongoDB](https://raw.githubusercontent.com/ihinsdale/mean-local-auth/master/readme_badges/mongodb.png)
-
-![Redis](https://raw.githubusercontent.com/ihinsdale/mean-local-auth/master/readme_badges/redis.png)
-
-![Nginx](https://raw.githubusercontent.com/ihinsdale/mean-local-auth/master/readme_badges/nginx.png)
-
-### Configuration management
-
-![Ansible](https://raw.githubusercontent.com/ihinsdale/mean-local-auth/master/readme_badges/ansible.png)
+| Server side | Client side | Configuration management | Testing |
+| ----------- | ----------- | ------------------------ | ------- |
+| ![Node.js](https://raw.githubusercontent.com/ihinsdale/mean-local-auth/master/readme_badges/nodejs.png) | ![AngularJS](https://raw.githubusercontent.com/ihinsdale/mean-local-auth/master/readme_badges/angular.png) | ![Ansible](https://raw.githubusercontent.com/ihinsdale/mean-local-auth/master/readme_badges/ansible.png) | ![Mocha](https://raw.githubusercontent.com/ihinsdale/mean-local-auth/master/readme_badges/mocha.png) |
+| ![Express](https://raw.githubusercontent.com/ihinsdale/mean-local-auth/master/readme_badges/express.png) | ![Bootstrap](https://raw.githubusercontent.com/ihinsdale/mean-local-auth/master/readme_badges/bootstrap.png) |
+| ![MongoDB](https://raw.githubusercontent.com/ihinsdale/mean-local-auth/master/readme_badges/mongodb.png) |
+| ![Redis](https://raw.githubusercontent.com/ihinsdale/mean-local-auth/master/readme_badges/redis.png) |
+| ![Nginx](https://raw.githubusercontent.com/ihinsdale/mean-local-auth/master/readme_badges/nginx.png) |
 
 ##<a name="code-overview"></a>Overview of the code
 
