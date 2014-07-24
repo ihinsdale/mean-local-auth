@@ -13,18 +13,19 @@ angular.module('mean-local-authApp.controllers')
     acctFreezeWarning: false,
     attemptsRemaining: null,
     acctFrozen: false,
-    successfulPasswordChange: false // this is used after a forgotten password has been successfully changed
+    successfulPasswordChange: FlashLikeMessageService.messageIndicator('successfulPasswordChange')
+      // this is true after a forgotten password has just been successfully changed
   };
 
-  // set alerts.successfulPasswordChange to true if a forgotten password has just been changed
-  $scope.alerts.successfulPasswordChange = FlashLikeMessageService.messageIndicator('successfulPasswordChange');
-
-  $scope.submitSigninForm = function(signin) {
-    // reset alerts
+  $scope.clearAlerts = function() {
     $scope.alerts.incorrect = false;
     $scope.alerts.acctFreezeWarning = false;
     $scope.alerts.acctFrozen = false;
-    $scope.alerts.successfulChange = false;
+    $scope.alerts.successfulPasswordChange = false;
+  };
+
+  $scope.submitSigninForm = function(signin) {
+    $scope.clearAlerts();
 
     if ($scope.signinForm.$valid) {
       AuthService.signin(signin)

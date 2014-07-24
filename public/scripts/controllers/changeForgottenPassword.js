@@ -15,7 +15,6 @@ angular.module('mean-local-authApp.controllers')
       .then(function(){
         // take user to signin page where they can login with new password
         $location.path('/signin');
-        // TODO - how to display alert on signin page that New password has been set successfully?
       }, function(reason) {
         console.log('Error changing forgotten password:', reason);
         $scope.formSubmitted = true;
