@@ -57,7 +57,7 @@ mean-local-auth is a seed/starter app for any project that requires local authen
 
 `/sysadmin` contains files supporting the deployment and systems-administration of the app. See the  [next section](#how-to-use) for more info.
 
-`/test` contains all code related to the testing of the app. Currently, integration tests cover all server endpoints.
+`/test` contains all code related to the testing of the app. Currently, integration tests cover all server endpoints. All tests pass.
 
 mean-local-auth doesn't use a build tool like Grunt or Gulp. Hence there is no minification, CSS preprocessing, etc. Better to leave those choices up to the developer.
 
