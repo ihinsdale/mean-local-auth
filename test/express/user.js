@@ -20,8 +20,9 @@ describe('GET /api/users/:username', function() {
     req.end(function(err, res) {
       if (err) { throw err; }
       expect(res.status).to.eql(200);
-      expect(res.body).to.be.a('string');
-      expect(res.body).to.eql('Public info for user ' + testUser.username + ' here');
+      expect(res.body).to.be.an('object');
+      expect(res.body).to.have.key('data');
+      expect(res.body.data).to.eql('Public info for user ' + testUser.username + ' here');
       done();
     });
   });
@@ -41,13 +42,14 @@ describe('GET /api/users/:username', function() {
       expect(res.body).to.have.key('username');
       expect(res.body.username).to.eql(testUser.username);
       agent.saveCookies(res.res);
-      var req2 = request(meanlocalauthUrl).get('/api/users' + testUser2.username);
+      var req2 = request(meanlocalauthUrl).get('/api/users/' + testUser2.username);
       agent.attachCookies(req2);
       req2.end(function(err2, res2) {
         if (err2) { throw err2; }
         expect(res2.status).to.eql(200);
-        expect(res2.body).to.be.a('string');
-        expect(res2.body).to.eql('Public info for user ' + testUser2.username + ' here');
+        expect(res2.body).to.be.an('object');
+        expect(res2.body).to.have.key('data');
+        expect(res2.body.data).to.eql('Public info for user ' + testUser2.username + ' here');
         done();
       });
     });
@@ -68,13 +70,14 @@ describe('GET /api/users/:username', function() {
       expect(res.body).to.have.key('username');
       expect(res.body.username).to.eql(testUser.username);
       agent.saveCookies(res.res);
-      var req2 = request(meanlocalauthUrl).get('/api/users' + testUser.username);
+      var req2 = request(meanlocalauthUrl).get('/api/users/' + testUser.username);
       agent.attachCookies(req2);
       req2.end(function(err2, res2) {
         if (err2) { throw err2; }
         expect(res2.status).to.eql(200);
-        expect(res2.body).to.be.a('string');
-        expect(res2.body).to.eql('Public and private (i.e. authentication-required) info for user ' +
+        expect(res2.body).to.be.an('object');
+        expect(res2.body).to.have.key('data');
+        expect(res2.body.data).to.eql('Public and private (i.e. authentication-required) info for user ' +
           testUser.username + ' here');
         done();
       });

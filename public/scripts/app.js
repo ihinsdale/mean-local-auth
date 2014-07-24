@@ -32,8 +32,8 @@ angular
           userInfo: ['$http', '$q', '$route', function($http, $q, $route) {
             var d = $q.defer();
             $http.get('/api/users/' + $route.current.params.username)
-            .success(function(data, status) {
-              d.resolve(data);
+            .success(function(responseBody, status) {
+              d.resolve(responseBody.data);
             })
             .error(function(reason, status) {
               d.reject(reason);
