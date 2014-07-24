@@ -488,6 +488,54 @@ describe('POST /api/signout', function() {
   });
 });
 
+describe('GET /api/is_authenticated', function() {
+  it("should say an unauthenticated user is not authenticated", function(done) {
+    var req = request(meanlocalauthUrl).get('/api/is_authenticated');
+    req.end(function(err, res) {
+      if (err) throw err;
+      expect(res.status).to.eql(200);
+      expect(res.body).to.be.an('object');
+      expect(res.body).to.have.key('username');
+      expect(res.body).to.have.key('status');
+      expect(res.body.status).to.eql(false);
+      expect(res.body.username).to.eql(null);
+      done();
+    });
+  });
+
+  it("should say an authenticated user is authenticated", function(done) {
+    this.timeout(20e3);
+    agent = superagent.agent();
+    var req = request(meanlocalauthUrl).post('/api/signin');
+    req.send({
+      username: testUser.email,
+      password: testUser.password
+    });
+    req.end(function(err, res) {
+      if (err) throw err;
+      expect(res.status).to.eql(200);
+      expect(res.body).to.be.an('object');
+      expect(res.body).to.have.key('username');
+      expect(res.body.username).to.eql(testUser.username);
+      agent.saveCookies(res.res);
+      // note that the logic below checking that user is authenticated is
+      // a duplicate of code in the /signup section
+      var req2 = request(meanlocalauthUrl).get('/api/is_authenticated');
+      agent.attachCookies(req2);
+      req2.end(function(err2, res2) {
+        if (err2) throw err2;
+        expect(res2.status).to.eql(200);
+        expect(res2.body).to.be.an('object');
+        expect(res2.body).to.have.key('username');
+        expect(res2.body).to.have.key('status');
+        expect(res2.body.status).to.eql(true);
+        expect(res2.body.username).to.eql(testUser.username);
+        done();
+      });
+    });
+  });
+});
+
 describe('POST /api/forgot_password', function() {
 
   it("should reject a forgot_password attempt for an email that doesn't exist", function(done) {
@@ -594,7 +642,8 @@ describe('POST /api/reset_password', function() {
 
   it("should successfully reset a password such that user can login with the new password", function(done) {
     this.timeout(20e3);
-    // TODO - not sure how to successfully test this, because it requires using a key sent in the email
+    // TODO - not sure how to test this programmatically, because it requires using a key sent in the email,
+    // but when manually tested, it works (7/23/14).
     done();
   });
 });
