@@ -12,8 +12,6 @@ mean-local-auth
 
 ##<a name="demo"></a>Demo
 
-### Check it out: [https://meanlocalauth.com](https://meanlocalauth.com)
-
 ### Screenshots:
 
 | Sign up | Sign in |
